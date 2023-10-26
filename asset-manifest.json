@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/MedicalRecords/static/css/main.c646781e.css",
-    "main.js": "/MedicalRecords/static/js/main.c3eabcaf.js",
+    "main.js": "/MedicalRecords/static/js/main.95d4e5f5.js",
     "static/media/loginbg2.png": "/MedicalRecords/static/media/loginbg2.1464ebed0dfc4416bcbf.png",
     "static/media/logo.png": "/MedicalRecords/static/media/logo.44f46b237ceb2fba854a.png",
     "index.html": "/MedicalRecords/index.html",
     "main.c646781e.css.map": "/MedicalRecords/static/css/main.c646781e.css.map",
-    "main.c3eabcaf.js.map": "/MedicalRecords/static/js/main.c3eabcaf.js.map"
+    "main.95d4e5f5.js.map": "/MedicalRecords/static/js/main.95d4e5f5.js.map"
   },
   "entrypoints": [
     "static/css/main.c646781e.css",
-    "static/js/main.c3eabcaf.js"
+    "static/js/main.95d4e5f5.js"
   ]
 }
