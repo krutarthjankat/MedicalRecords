@@ -1,9 +1,10 @@
 import Login from "./components/Login.js";
 import SignUp from "./components/SignUp.js";
-import { Route, Routes, useLocation, HashRouter } from "react-router-dom";
+import { Route, Routes, useLocation, BrowserRouter } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { PageContextProvider } from "./store/PageContext.js";
 import Dashboard from "./components/Dashboard.js";
+import Root from "./components/Root.js";
 
 function RoutesWithAnimation() {
   const location = useLocation();
@@ -13,7 +14,8 @@ function RoutesWithAnimation() {
       <Routes location={location} key={location.key}>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Root />} />
       </Routes>
     </AnimatePresence>
   );
@@ -21,9 +23,9 @@ function RoutesWithAnimation() {
 function App() {
   return (
     <PageContextProvider>
-      <HashRouter>
+      <BrowserRouter basename={`${process.env.PUBLIC_URL}`}>
         <RoutesWithAnimation />
-      </HashRouter>
+      </BrowserRouter>
     </PageContextProvider>
   );
 }

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 function Dashboard() {
   const n=useNavigate();
   const toLogin=()=>{
-    n('/login');
+    n('login');
   }
   return (
     <div className={`${styles.dbpage}`}>
