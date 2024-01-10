@@ -1,0 +1,525 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Gabarito:wght@400;700&family=Open+Sans:wght@300;400;500;600;700&family=Poppins:ital,wght@0,400;0,500;1,300;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Open+Sans:wght@300;400;500;600;700&family=Poppins:ital,wght@0,400;0,500;1,300;1,400&display=swap");
+* {
+  margin: 0;
+  /* padding: 0; */
+  --transition: 0.15s;
+  --background: #4ae6b9;
+  --box-shadow: #4ae6b9;
+}
+.signuppg {
+  margin: auto;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #b9e8f3;
+}
+
+.form {
+  height: 600px;
+  width: 430px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid;
+  border-radius: 15px;
+  background-color: #fff;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-image: url(../assets/loginbg2.png);
+  background-repeat: no-repeat;
+  background-size: 100% 75%;
+  background-position: 50% 00%;
+  border: 0.5px solid rgb(48, 34, 34);
+  box-shadow: 0px 0px 20px 1px black;
+}
+.alert {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 200%;
+  width: 100%;
+  height: 15%;
+  top: 45%;
+  left: 0;
+  z-index: 5;
+}
+label span {
+  font-weight: normal;
+  font-size: 80%;
+  color: red;
+}
+h1 {
+  font-size: 300%;
+  font-family: Poppins;
+  font-weight: bold;
+}
+
+.animate {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  top: -10%;
+  right: -10%;
+  overflow: hidden;
+  border-radius: 100%;
+  background-color: #00cec8;
+  z-index: 7;
+}
+.row {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 3%;
+  width: 100%;
+  height: 62px;
+  margin: 8px 0;
+}
+
+label {
+  font-weight: bold;
+  font-size: 90%;
+  margin-bottom: 1%;
+  font-family: Poppins;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.inputdiv {
+  width: 100%;
+}
+
+.inputs {
+  width: 100%;
+  padding: 5.69px;
+  border-radius: 3px;
+  border: 1px solid;
+  transition: 0.2s;
+  &:focus {
+    box-shadow: 0px 0px 2px 2px rgb(3, 160, 244);
+  }
+  &[id="password"] {
+    margin-bottom: 1.5%;
+  }
+}
+
+.choicediv {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-between;
+  margin-top: 4%;
+  gap: 2%;
+}
+.contcheckbox {
+  width: 50%;
+  height: 100px;
+  border-radius: 10%;
+  border: 1px solid black;
+  box-shadow: 0 0 0.3rem 0.1rem rgba(0, 0, 0, 0.363);
+  background: white;
+  transition: transform var(--transition);
+}
+
+.contcheckbox:first-of-type {
+  margin-bottom: 0.75rem;
+  margin-right: 0.75rem;
+}
+
+.contcheckbox:active {
+  transform: scale(0.9);
+}
+.contcheckbox:active {
+  transform: scale(0.9);
+}
+
+.choicediv input {
+  display: none;
+}
+
+.choicediv input:checked + label {
+  opacity: 1;
+  border-radius: 10%;
+  box-shadow: 0 0 0 3px var(--background);
+}
+
+.choicediv input:checked + label img {
+  -webkit-filter: none; /* Safari 6.0 - 9.0 */
+  filter: none;
+}
+
+.choicediv input:checked + label .covercheckbox {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.choicediv input:checked + label .covercheckbox svg {
+  stroke-dashoffset: 0;
+}
+
+.choicediv label {
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 1%;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  opacity: 0.6;
+}
+
+.choicediv label img {
+  width: 27%;
+  height: 60%;
+  object-position: 0% 0%;
+  margin: 8% 0 0 36.7%;
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+
+.choicediv label .covercheckbox {
+  position: absolute;
+  right: 5px;
+  top: 3px;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--box-shadow);
+  border: 2px solid #fff;
+  transition: transform var(--transition),
+    opacity calc(var(--transition) * 1.2) linear;
+  opacity: 0;
+  transform: scale(0);
+}
+
+.choicediv label .covercheckbox svg {
+  width: 13px;
+  height: 11px;
+  display: inline-block;
+  vertical-align: top;
+  fill: none;
+  margin: 3px 0 0 2px;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 16px;
+  transition: stroke-dashoffset 0.4s ease var(--transition);
+  stroke-dashoffset: 16px;
+}
+
+.choicediv label .info {
+  text-align: center;
+  margin-top: 0.2rem;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.signup {
+  position: relative;
+}
+
+.inputs[id="key"] {
+  margin-bottom: 2%;
+}
+label[for="terms"] {
+  margin-top: 0.0000005%;
+}
+
+a {
+  &:hover {
+    color: blue;
+  }
+  font-weight: normal;
+}
+
+.btnthree {
+  transition: all 0.5s;
+  position: relative;
+  background-color: white;
+  color: black;
+  & label {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transition: all 0.3s;
+  }
+}
+
+.btnthree::before {
+  padding-top: 6px;
+  content: "Create an account";
+  color: white;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgb(0, 0, 0);
+  transition: all 0.3s;
+}
+.btnthree:hover {
+  &:before {
+    opacity: 0;
+    transform: scale(0.5, 0.5);
+    content: "";
+  }
+  &:after {
+    opacity: 1;
+    transform: scale(1, 1);
+    content: "";
+  }
+}
+.btnthree::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+  border: 2px solid rgb(0, 0, 0);
+  transform: scale(1.05, 1.05);
+}
+
+.links {
+  margin: 2% 0 0 0;
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  & span {
+    color: black;
+    text-decoration: underline;
+    font-weight: bold;
+    &:hover {
+      color: rgb(81, 204, 204);
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .form {
+    height: 470px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 3% 5%;
+  }
+  h1 {
+    position: relative;
+    font-size: 200%;
+  }
+  .alert {
+    font-size: 150%;
+  }
+  .row {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+    width: 100%;
+    height: 10%;
+    margin: 1.5% 0;
+  }
+  .inputs {
+    font-size: 80%;
+    width: 100%;
+    height: 65%;
+    margin-bottom: 7%;
+  }
+
+  .inputdiv label {
+    margin-bottom: 0.01%;
+    font-size: 75%;
+  }
+  .choicediv {
+    height: 17%;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    gap: 2%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+  }
+
+  .contcheckbox {
+    width: 50%;
+    height: 100%;
+    border-radius: 10%;
+    border: 1px solid black;
+    box-shadow: 0 0 0.3rem 0.1rem rgba(0, 0, 0, 0.363);
+    background: white;
+
+    transition: transform var(--transition);
+  }
+
+  .choicediv label img {
+    width: 27%;
+    height: 60%;
+    object-position: 0% 0%;
+    margin: 5% 0 0 35.7%;
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+  }
+  .signup {
+    margin-top: 2%;
+  }
+
+  .links {
+    margin: 7px 0px 0 0;
+    display: flex;
+    width: 80%;
+    font-size: 70%;
+    justify-content: space-between;
+    & span {
+      color: black;
+      text-decoration: underline;
+      font-weight: bold;
+      &:hover {
+        color: rgb(81, 204, 204);
+      }
+    }
+  }
+}
+@media screen and (max-width: 370px) {
+  .form {
+    height: 280px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2% 4%;
+  }
+  h1 {
+    font-size: 130%;
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+  .alert {
+    font-size: 130%;
+  }
+  .row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0 0;
+  }
+
+  .inputdiv {
+    width: 100%;
+    height: 1%;
+    margin-bottom:0.25em;
+  }
+  .inputs {
+    font-size: 50%;
+    width: 100%;
+    height: 16px;
+    background-color: white;
+    &[id="password"] {
+      margin-bottom: 2%;
+    }
+  }
+  .inputdiv label {
+    font-size: 50%;
+    margin-bottom: -6px;
+  }
+
+  .choicediv {
+    margin: 5% 1%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    gap: 1%;
+    margin-bottom: 8%;
+  }
+
+  .contcheckbox {
+    width: 50%;
+    height:40px;
+    border-radius: 10%;
+    border: 1px solid black;
+    box-shadow: 0 0 0.3rem 0.1rem rgba(0, 0, 0, 0.363);
+    background: white;
+    transition: transform var(--transition);
+  }
+
+  .choicediv label img {
+    width: 20%;
+    height: 50%;
+    object-position: 0% 0%;
+    margin: 5% 0 -2% 40%;
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+  }
+
+  .choicediv label .info {
+    font-size: 55%;
+  }
+
+  .choice{
+    height:100%;
+    width: 100%;
+  }
+
+  .signup {
+    font-size: 60%;
+  }
+
+  .btnthree {
+  font-size: 12px;
+  height: 25px;
+  line-height: 10px;
+  transition: all 0.5s;
+  position: relative;
+  background-color: white;
+  color: black;
+  text-align: center;
+  & label {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transition: all 0.3s;
+  }
+}
+  .links {
+    margin: 2px 0px 0 0;
+    display: flex;
+    width: 80%;
+    font-size: 55%;
+    justify-content: space-between;
+    & span {
+      color: black;
+      text-decoration: underline;
+      font-weight: bold;
+      &:hover {
+        color: rgb(81, 204, 204);
+      }
+    }
+  }
+}
