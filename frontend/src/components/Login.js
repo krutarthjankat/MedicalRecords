@@ -3,7 +3,7 @@ import axios from "axios";
 import styles from "../styles/Login.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, useAnimationControls } from "framer-motion";
-import { usePageContext } from "../store/PageContext.js";
+import { usePageContext, useUserData } from "../store/PageContext.js";
 
 function Login() {
   // State
@@ -12,7 +12,8 @@ function Login() {
     username: "",
     password: "",
   });
-
+  const [type, setType] = useState("password");
+  const { setUserId } = useUserData();
   const { setDimLogin, setDimSignUp, dimSignUp, dimLogin } = usePageContext();
   const LoginRef = useRef();
   const pgRef = useRef();
@@ -96,6 +97,14 @@ function Login() {
     setProfiles(res.data.profiles);
   };
 
+  const handleToggle = () => {
+    if (type === "password") {
+      setType("text");
+    } else {
+      setType("password");
+    }
+  };
+
   //Updation of input fields
   const updateFormField = (e) => {
     const { name, value } = e.target;
@@ -114,16 +123,15 @@ function Login() {
   //Checking validity of inputs
   const checkLogin = async (e) => {
     e.preventDefault();
-    // setProfiles([...profiles, form]);
-    console.log(profiles);
     if (profiles) {
       profiles.forEach((element) => {
-        console.log("1");
         if (
           element.username === form.username &&
           element.password === form.password
         ) {
-          navigate("/dashboard");
+
+          setUserId(String(element["_id"]));
+          navigate(`/dashboard/${element["_id"]}`);
         } else {
           control.start({
             opacity: [0, 1, 1, 0],
@@ -192,10 +200,10 @@ function Login() {
               <span className={styles.focusborder}></span>
             </div>
 
-            <div className={`${styles.col3} input-effect`}>
+            <div className={`${styles.col3} input-effect `}>
               <input
                 className={`${styles.effect16}`}
-                type="password"
+                type={type}
                 placeholder=""
                 onChange={updateFormField}
                 value={form.password}
@@ -205,6 +213,20 @@ function Login() {
                 autocomplete="off"
               />
               <label>Password</label>
+              {type === "text" && (
+                <span
+                  className={`fa-solid fa-eye ${styles.eyeicon}`}
+                  style={{ color: "#2264a6" }}
+                  onClick={handleToggle}
+                ></span>
+              )}
+              {type === "password" && (
+                <span
+                  className={`fa-solid fa-eye-slash ${styles.eyeicon}`}
+                  style={{ color: "#2264a6" }}
+                  onClick={handleToggle}
+                ></span>
+              )}
               <span className={styles.focusborder}></span>
             </div>
           </div>

@@ -8,6 +8,11 @@ const express = require("express");
 const cors = require("cors");
 const connectToDb = require("./config/connectToDb");
 const profilesController = require("./controllers/profilesController");
+var cron = require("node-cron");
+
+cron.schedule("*/2 * * * *", () => {
+  console.log("running a task every two minutes");
+});
 
 // Create an express app
 const app = express();

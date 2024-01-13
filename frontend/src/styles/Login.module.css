@@ -76,6 +76,7 @@
 }
 
 .col3 {
+  display: flex;
   float: left;
   height: 20%;
   width: 80%;
@@ -154,7 +155,7 @@
 
 .effect16 ~ .focusborder {
   position: absolute;
-  bottom: -5px;
+  bottom: -3px;
   left: 0;
   width: 0;
   height: 3px;
@@ -170,18 +171,24 @@
   position: absolute;
   left: 0;
   width: 100%;
-  top: 9px;
+  top: 4px;
   color: rgb(92, 99, 108);
   transition: 0.3s;
   z-index: -1;
   letter-spacing: 0.5px;
-  font-size: 14px;
+  font-size: 15px;
 }
 .effect16:focus ~ label,
 .hascontent.effect16 ~ label {
   top: -16px;
   font-size: 12px;
   transition: 0.3s;
+}
+.eyeicon{
+  position:absolute;
+  right:5px;
+  top:5px;
+  /* border-bottom: 1px solid #000000; */
 }
 
 @media screen and (max-width: 500px) {

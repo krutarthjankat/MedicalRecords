@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 const PageContext = React.createContext();
+const UserData = React.createContext();
 
 export const usePageContext = () => {
   return useContext(PageContext);
@@ -15,5 +16,21 @@ export const PageContextProvider = ({ children }) => {
     >
       {children}
     </PageContext.Provider>
+  );
+};
+
+export const useUserData = () => {
+  return useContext(UserData);
+};
+
+export const UserDataProvider = ({ children }) => {
+  const [userId, setUserId] = useState("abcd");
+
+  return (
+    <UserData.Provider
+      value={{ userId, setUserId}}
+    >
+      {children}
+    </UserData.Provider>
   );
 };
