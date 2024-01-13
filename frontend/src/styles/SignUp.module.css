@@ -35,7 +35,7 @@
   background-size: 100% 75%;
   background-position: 50% 00%;
   border: 0.5px solid rgb(48, 34, 34);
-  box-shadow: 0px 0px 20px 1px black;
+  box-shadow: 0px 0px 10px 1px black;
 }
 .alert {
   position: absolute;

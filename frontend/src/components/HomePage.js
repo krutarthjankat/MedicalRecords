@@ -46,14 +46,18 @@ function HomePage({prop}) {
   return (
     <div className={`${styles.dbpage}`}>
       <motion.div animate={control} className={`${styles.sidebar}`}>
-        <div className={`${styles.logo}`}>
+        <div
+          className={`${styles.logo} ${
+            open ? "justify-content-between" : "justify-content-center"
+          }`}
+        >
           {open && (
             <>
               <div class="fa-brands fa-react"></div>
-              &nbsp; React App
+              React App
             </>
           )}
-          <button className={`btn`} onClick={toggleOpen}>
+          <button onClick={toggleOpen}>
             <div class="fa-solid fa-bars"></div>
           </button>
         </div>
