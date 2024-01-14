@@ -122,7 +122,6 @@
   background-color: #00cec8;
   border-radius: 50px;
   box-shadow: 2px 2px #888888;
-
   &:hover {
     color: #00cec8;
     background-color: #000000;
@@ -188,7 +187,6 @@
   position:absolute;
   right:5px;
   top:5px;
-  /* border-bottom: 1px solid #000000; */
 }
 
 @media screen and (max-width: 500px) {

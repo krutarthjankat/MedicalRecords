@@ -2,7 +2,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Open+Sans:wght@300;400;500;600;700&family=Poppins:ital,wght@0,400;0,500;1,300;1,400&display=swap");
 * {
   margin: 0;
-  /* padding: 0; */
   --transition: 0.15s;
   --background: #4ae6b9;
   --box-shadow: #4ae6b9;
@@ -150,7 +149,7 @@ label {
 }
 
 .choicediv input:checked + label img {
-  -webkit-filter: none; /* Safari 6.0 - 9.0 */
+  -webkit-filter: none; 
   filter: none;
 }
 
@@ -179,7 +178,7 @@ label {
   height: 60%;
   object-position: 0% 0%;
   margin: 8% 0 0 36.7%;
-  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
 }
 
@@ -376,7 +375,7 @@ a {
     height: 60%;
     object-position: 0% 0%;
     margin: 5% 0 0 35.7%;
-    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    -webkit-filter: grayscale(100%); 
     filter: grayscale(100%);
   }
   .signup {
@@ -470,7 +469,7 @@ a {
     height: 50%;
     object-position: 0% 0%;
     margin: 5% 0 -2% 40%;
-    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
   }
 

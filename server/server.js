@@ -1,35 +1,40 @@
-// Load env variables
 if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
 }
-
-// Import dependencies
 const express = require("express");
 const cors = require("cors");
 const connectToDb = require("./config/connectToDb");
+const cron = require("node-cron"); 
+const https = require("https");
 const profilesController = require("./controllers/profilesController");
-var cron = require("node-cron");
 
-cron.schedule("*/2 * * * *", () => {
-  console.log("running a task every two minutes");
-});
-
-// Create an express app
 const app = express();
-
-// Configure express app
 app.use(express.json());
 app.use(cors());
 
-// Connect to database
 connectToDb();
 
-// Routing
+const backendUrl = "https://medicalrecords.onrender.com/profiles";
+cron.schedule("*/180 * * * * *", function () {
+  console.log("Restarting server");
+
+  https
+    .get(backendUrl, (res) => {
+      if (res.statusCode === 200) {
+        console.log("Restarted");
+      } else {
+        console.error(`failed to restart with status code: ${res.statusCode}`);
+      }
+    })
+    .on("error", (err) => {
+      console.error("Error ", err.message);
+    });
+});
+
 app.get("/profiles", profilesController.fetchProfiles);
 app.get("/profiles/:id", profilesController.fetchProfile);
 app.post("/profiles", profilesController.createProfile);
 app.put("/profiles/:id", profilesController.updateProfile);
 app.delete("/profiles/:id", profilesController.deleteProfile);
 
-// Start our server
 app.listen(process.env.PORT);
