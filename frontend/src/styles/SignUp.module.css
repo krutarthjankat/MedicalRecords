@@ -48,15 +48,15 @@
   left: 0;
   z-index: 5;
 }
-label span {
+label > span {
   font-weight: normal;
   font-size: 80%;
   color: red;
 }
 h1 {
-  font-size: 300%;
-  font-family: Poppins;
-  font-weight: bold;
+  font-size: 3em !important;
+  font-family: Poppins !important;
+  font-weight: bold !important;
 }
 
 .animate {
@@ -323,7 +323,7 @@ a {
   }
   h1 {
     position: relative;
-    font-size: 200%;
+    font-size: 2em !important;
   }
   .alert {
     font-size: 150%;

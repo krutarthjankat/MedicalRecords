@@ -20,7 +20,7 @@
   width: 20vw;
   height: calc(100vh - 4vw);
   padding: 1em;
-  background-color: #0A2647;
+  background-color: #0a2647;
   gap: 2em;
   white-space: nowrap;
   display: flex;
@@ -37,10 +37,10 @@
   width: 100%;
   height: 8%;
   display: flex;
-  color:#ffffff;
+  color: #ffffff;
   align-items: center;
   & > button {
-    color:#ffffff;
+    color: #ffffff;
     font-size: 1em;
   }
 }
@@ -61,10 +61,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* border: #9eeafb solid;
-  border-radius: 5%/10%; */
 }
-.buttondiv button {
+.buttondiv > button {
   width: 100%;
   outline: none;
   border: none;
@@ -86,7 +84,7 @@
   width: 100%;
   height: 5vw;
   border-radius: 0 1em 0 0;
-  background-color: #0A2647;
+  background-color: #0a2647;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -100,18 +98,18 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: #212A3E;
-  & > input {
+  background-color: #212a3e;
+  & input {
     width: 100%;
-    background-color: #212A3E;
+    background-color: #212a3e;
     border-color: aliceblue;
   }
 }
 .content {
   width: 100%;
   height: calc(100vh - 11vw);
-  background-color: #0A2647;
-  color:#fff;
+  background-color: #0a2647;
+  color: #fff;
   border-radius: 0 0% 1em 0;
   padding: 1em;
   overflow-y: scroll;
@@ -119,15 +117,15 @@
 }
 
 .content::-webkit-scrollbar {
-  width: 6px;             
+  width: 6px;
 }
 
 .content::-webkit-scrollbar-track {
-  background: #0F1035;        
+  background: #0f1035;
 }
 
 .content::-webkit-scrollbar-thumb {
-  background-color: #fff; 
-  border-radius: 10%;   
-  border: 1px solid #000;  
+  background-color: #fff;
+  border-radius: 10%;
+  border: 1px solid #000;
 }
