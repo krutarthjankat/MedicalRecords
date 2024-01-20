@@ -7,10 +7,12 @@ const connectToDb = require("./config/connectToDb");
 const cron = require("node-cron"); 
 const https = require("https");
 const profilesController = require("./controllers/profilesController");
+const cookieParser = require("cookie-parser");
+const authRoute = require("./routes/AuthRoute");
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
 
 connectToDb();
 
@@ -31,10 +33,20 @@ cron.schedule("*/180 * * * * *", function () {
     });
 });
 
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://medicalrecords.onrender.com",
+      "https://krutarthjankat.github.io/",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+app.use("/", authRoute);
 app.get("/profiles", profilesController.fetchProfiles);
-app.get("/profiles/:id", profilesController.fetchProfile);
-app.post("/profiles", profilesController.createProfile);
 app.put("/profiles/:id", profilesController.updateProfile);
 app.delete("/profiles/:id", profilesController.deleteProfile);
-
 app.listen(process.env.PORT);

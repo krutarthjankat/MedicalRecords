@@ -3,24 +3,26 @@ import axios from "axios";
 import styles from "../styles/Login.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, useAnimationControls } from "framer-motion";
-import { usePageContext, useUserData } from "../store/PageContext.js";
+import { usePageContext } from "../store/PageContext.js";
+// import { useCookies } from "react-cookie";
 
 function Login() {
   // State
-  const [profiles, setProfiles] = useState();
+  // const [profiles, setProfiles] = useState();
   const [form, setForm] = useState({
     username: "",
     password: "",
   });
   const [type, setType] = useState("password");
-  const { setUserId } = useUserData();
+  // const [cookies] = useCookies("token");
   const { setDimLogin, setDimSignUp, dimSignUp, dimLogin } = usePageContext();
   const LoginRef = useRef();
   const pgRef = useRef();
   const navigate = useNavigate();
   const control = useAnimationControls();
+
   useEffect(() => {
-    fetchProfiles();
+    // fetchProfiles();
     if (pgRef.current.clientWidth < 370) {
       setDimSignUp({ height: 280, width: 200 });
     } else if (pgRef.current.clientWidth < 500) {
@@ -29,6 +31,12 @@ function Login() {
       setDimSignUp({ height: 598, width: 428 });
     }
   }, [setDimSignUp]);
+
+  // useEffect(() => {
+  //   if (cookies) {
+  //     navigate(`/dashboard`);
+  //   }
+  // }, [navigate,cookies]);
 
   //Getting page widths for smooth transitions
   useEffect(() => {
@@ -90,12 +98,12 @@ function Login() {
     },
   };
 
-  const fetchProfiles = async () => {
-    // Fetch the profiles
-    const res = await axios.get("https://medicalrecords.onrender.com/profiles");
-    // Set to state
-    setProfiles(res.data.profiles);
-  };
+  // const fetchProfiles = async () => {
+  //   // Fetch the profiles
+  //   const res = await axios.get("https://medicalrecords.onrender.com/profiles");
+  //   // Set to state
+  //   setProfiles(res.data.profiles);
+  // };
 
   const handleToggle = () => {
     if (type === "password") {
@@ -123,30 +131,37 @@ function Login() {
   //Checking validity of inputs
   const checkLogin = async (e) => {
     e.preventDefault();
-    if (profiles) {
-      profiles.forEach((element) => {
-        if (
-          element.username === form.username &&
-          element.password === form.password
-        ) {
-
-          setUserId(String(element["_id"]));
-          navigate(`/dashboard/${element["_id"]}`);
-        } else {
-          control.start({
-            opacity: [0, 1, 1, 0],
-            y: ["-20px", "0px", "0px", "-20px"],
-            transition: {
-              times: [0, 0.1, 0.99, 1],
-              duration: 4,
-            },
-          });
-          const usr = document.getElementById("username");
-          const pas = document.getElementById("password");
-          usr.classList.remove(`${styles.hascontent}`);
-          pas.classList.remove(`${styles.hascontent}`);
+    console.log(form);
+    try {
+      const { data } = await axios.post(
+        "https://medicalrecords.onrender.com/login",
+        form,
+        {
+          withCredentials: true,
         }
-      });
+      );
+      const { success, message } = data;
+      if (success) {
+        console.log(message);
+        // localStorage.setItem("isLoggedIn", res.data.id);
+        navigate(`/Dashboard`);
+      } else {
+        console.log(data.status);
+        control.start({
+          opacity: [0, 1, 1, 0],
+          y: ["-20px", "0px", "0px", "-20px"],
+          transition: {
+            times: [0, 0.1, 0.99, 1],
+            duration: 4,
+          },
+        });
+        const usr = document.getElementById("username");
+        const pas = document.getElementById("password");
+        usr.classList.remove(`${styles.hascontent}`);
+        pas.classList.remove(`${styles.hascontent}`);
+      }
+    } catch (error) {
+      console.log(error);
     }
     setForm({
       username: "",
@@ -194,7 +209,7 @@ function Login() {
                 name="username"
                 id="username"
                 required
-                autocomplete="off"
+                autoComplete="off"
               />
               <label>Username</label>
               <span className={styles.focusborder}></span>
@@ -210,7 +225,7 @@ function Login() {
                 name="password"
                 id="password"
                 required
-                autocomplete="off"
+                autoComplete="off"
               />
               <label>Password</label>
               {type === "text" && (

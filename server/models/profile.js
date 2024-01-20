@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const profileSchema = new mongoose.Schema({
   firstname: String,
@@ -9,6 +10,9 @@ const profileSchema = new mongoose.Schema({
   password: String,
 });
 
+profileSchema.pre("save", async function () {
+  this.password = await bcrypt.hash(this.password, 12);
+});
 const Profile = mongoose.model("Profile", profileSchema);
 
 module.exports = Profile;

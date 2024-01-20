@@ -1,0 +1,163 @@
+.complete {
+  width: 100%;
+  height: 100%;
+  color: #797979;
+  background-color: transparent;
+  font-family: "Open Sans", sans-serif;
+  padding: 0em !important;
+  margin: 0px !important;
+  font-size: 125%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.profilenav {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  width: 21%;
+  height: 20vw;
+}
+
+.profilenav,
+.profileinfo {
+  background-color: #f1f2f7;
+}
+
+.profilenav .userheading {
+  background: #fbc02d;
+  color: #fff;
+  text-align: center;
+  align-items: center;
+}
+
+.profilenav .photo {
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 11vw;
+  -webkit-border-radius: 100%;
+}
+
+.profilenav .userheading h1 {
+  font-size: 1.5vw !important;
+  font-weight: 300;
+  margin-bottom: 1vw;
+}
+
+.profilenav ul {
+  margin-top: 1px;
+}
+
+.profilenav ul > li {
+  background-color: #f1f2f7;
+  border-bottom: 1px solid #ffcc01;
+  margin-top: 0;
+  height: 2.5vw;
+}
+
+.profilenav ul > li:last-child {
+    border-radius: 0 0 10% 10%;
+}
+
+.profilenav ul > li > a {
+  font-size: 1.25vw;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  color: #89817f;
+}
+
+.profilenav ul > li:last-child > a:last-child {
+  border-radius: 0 0 4px 4px;
+  -webkit-border-radius: 0 0 4px 4px;
+}
+
+.profilenav ul > li > a > i {
+  font-size: 1.25vw;
+  padding: 0 0.75vw;
+  color: #bcb3aa;
+}
+
+.profileinfo {
+  padding: 1em;
+  width: 79%;
+  height: 100%;
+}
+
+.biographheading {
+  background: #fbc02d;
+  color: #fff;
+  text-align: center;
+  font-style: italic;
+  padding: 40px 110px;
+  border-radius: 4px 4px 0 0;
+  -webkit-border-radius: 4px 4px 0 0;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.biographinfo {
+  color: #89817e;
+  height: 100%;
+}
+
+.biographinfo h1 {
+  font-size: 5vw !important;
+  font-weight: 300;
+  margin: 0 0 20px;
+  color: #fbc02d;
+  border-bottom: 5px solid #fbc02d;
+}
+
+.biorow {
+  width: 50%;
+  float: left;
+  padding: 0.5em;
+}
+
+.biorow span:first-child {
+  font-size: 1.5vw !important;
+  width: 35%;
+  height: 100%;
+  font-weight: bold;
+}
+.biorow span:last-child {
+ font-size: 1.5vw !important;
+  width: 65%;
+  height: 100%;
+}
+
+.biochart {
+  width: 40%;
+  & input {
+    width: 54px;
+    height: 33px;
+    position: absolute;
+    vertical-align: middle;
+    margin-top: 33px;
+    margin-left: -77px;
+    border: 0px;
+    font-weight: bold;
+    font-style: normal;
+    font-variant: normal;
+    font-stretch: normal;
+    font-size: 20px;
+    line-height: normal;
+    font-family: Arial;
+    text-align: center;
+    color: rgb(224, 107, 125);
+    padding: 0px;
+    -webkit-appearance: none;
+    background: none;
+  }
+}
+
+.filepos {
+  margin: 6px 0 10px 0;
+}

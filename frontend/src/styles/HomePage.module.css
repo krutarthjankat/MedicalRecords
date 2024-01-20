@@ -21,7 +21,7 @@
   height: calc(100vh - 4vw);
   padding: 1em;
   background-color: #0a2647;
-  gap: 2em;
+  gap: 1.5vw;
   white-space: nowrap;
   display: flex;
   border-radius: 1em 0% 0% 1em;
@@ -30,12 +30,12 @@
   align-items: center;
   overflow: hidden;
   box-shadow: 0px 0px 10px 2px #000;
+  transform-origin: translate(-100%, 0);
 }
 
 .logo {
-  font-size: 2em;
+  font-size: 2.10vw;
   width: 100%;
-  height: 8%;
   display: flex;
   color: #ffffff;
   align-items: center;
@@ -45,19 +45,24 @@
   }
 }
 
+.divide{
+  height:0px;
+  width: 100%;
+  border: #fff 0.75px solid;
+}
+
 .options {
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 1em;
+  gap: 1.5vw;
 }
 .buttondiv {
-  font-size: 1.5rem;
+  font-size: 1.75vw;
   width: 100%;
   height: 20%;
-  padding: 0.3em;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -80,9 +85,10 @@
   gap: 2vw;
 }
 .nav {
-  padding: 2em;
+  padding: 0 1em;
   width: 100%;
   height: 5vw;
+  gap: 1em;
   border-radius: 0 1em 0 0;
   background-color: #0a2647;
   display: flex;
@@ -92,7 +98,7 @@
   box-shadow: 0px 0px 10px 2px #000;
 }
 .search {
-  height: 2.5em;
+  height: 3vw;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -103,8 +109,29 @@
     width: 100%;
     background-color: #212a3e;
     border-color: aliceblue;
+    border: none;
+    &:focus{
+      border: none;
+    }
+  }
+  & button{
+    height:3vw;
+    font-size: 1vw;
+    background-color: rgb(33, 99, 206);
+    border: none;
+    &:focus{
+      border: none;
+    }
   }
 }
+
+.toggle{
+  height:3vw;
+  width: 3vw;
+  font-size: 1.25vw;
+border-radius: 100%;
+}
+
 .content {
   width: 100%;
   height: calc(100vh - 11vw);

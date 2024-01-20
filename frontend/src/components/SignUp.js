@@ -144,25 +144,23 @@ const SignUp = () => {
       [name]: value,
     };
     if (profiles) {
-        console.log(profiles);
-        profiles.forEach((element) => {
-          if (element.username === check.username) {
-            console.log("yes");
-            setTaken({ username: true });
-          } else {
-            setTaken({ ...taken, username: false });
-          }
-          // if (element.mobno === check.mobno) {
-          //   setTaken({ ...taken, [name]: true });
-          // } else {
-          //   setTaken({ ...taken, [name]: false });
-          // }
-          // if (element.emailid === check.emailid) {
-          //   setTaken({ ...taken, [name]: true });
-          // } else {
-          //   setTaken({ ...taken, [name]: false });
-          // }
-        });
+      profiles.forEach((element) => {
+        if (element.username === check.username) {
+          setTaken({ username: true });
+        } else {
+          setTaken({ ...taken, username: false });
+        }
+        // if (element.mobno === check.mobno) {
+        //   setTaken({ ...taken, [name]: true });
+        // } else {
+        //   setTaken({ ...taken, [name]: false });
+        // }
+        // if (element.emailid === check.emailid) {
+        //   setTaken({ ...taken, [name]: true });
+        // } else {
+        //   setTaken({ ...taken, [name]: false });
+        // }
+      });
     }
     setCreateForm({
       ...createForm,
@@ -175,14 +173,37 @@ const SignUp = () => {
     e.preventDefault();
     const key = document.getElementById("key");
     if (key.value === "abcd") {
-      const res = await axios.post(
-        "https://medicalrecords.onrender.com/profiles",
-        createForm
-      );
-      setAlert(true);
-      setTimeout(() => navigate("/dashboard"), 1000);
-      setProfiles([...profiles, res.data.profile]);
+      try {
+        const { data } = await axios.post(
+          "https://medicalrecords.onrender.com/signup",
+          createForm
+          // { withCredentials: true }
+        );
+        console.log(data);
+        const { success, message } = data;
+        if (success) {
+          console.log(message);
+          setAlert(true);
+          setTimeout(() => {
+            navigate(`/dashboard`);
+          }, 1000);
+          setProfiles([...profiles, data.profile]);
+        } else {
+          console.log(message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
+    // if (key.value === "abcd") {
+    //   const res = await axios.post(
+    //     "https://medicalrecords.onrender.com/profiles",
+    //     createForm
+    //   );
+    //   setAlert(true);
+    //   setTimeout(() => navigate("/dashboard"), 1000);
+    //   setProfiles([...profiles, res.data.profile]);
+    // }
     setCreateForm({
       firstname: "",
       lastname: "",
@@ -213,7 +234,7 @@ const SignUp = () => {
           <h1>Sign Up</h1>
           <form onSubmit={createProfile}>
             {alert && (
-              <div class={`alert alert-success ${styles.alert}`} role="alert">
+              <div className={`alert alert-success ${styles.alert}`} role="alert">
                 Signed up successfully
               </div>
             )}

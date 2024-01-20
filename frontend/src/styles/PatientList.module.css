@@ -1,0 +1,52 @@
+        /* {
+            font-family: 'Rubik', sans-serif;
+            height: 100% !important;
+            background-color: #3F51B5 !important;
+        } */
+
+        .more {
+            opacity: 0.5 !important;
+        }
+
+        .btn:hover {
+            color: black !important;
+        }
+
+        .vl {
+            margin: 8px !important;
+            width: 2px;
+            border-right: 1px solid #aaaaaa;
+            height: 25px;
+        }
+
+        .card {
+            border-radius: 10px !important;
+        }
+
+        a:hover {
+            background-color: #ccc !important;
+        }
+
+
+
+        .btn-outlined:active {
+            color: #FFF;
+            border-color: #fff !important;
+        }
+
+
+        img {
+
+            cursor: pointer;
+            overflow: visible;
+        }
+
+        .btn:focus,
+        .btn:active {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+	.container{
+	   margin-top:100px !important;
+	}
