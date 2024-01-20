@@ -1,6 +1,6 @@
 const Profile = require("../models/profile.js");
 const { createSecretToken } = require("../util/SecretToken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const fetchProfiles = async (req, res) => {
   // Find the profiles
