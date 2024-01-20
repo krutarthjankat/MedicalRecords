@@ -45,6 +45,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use("/", authRoute);
 app.get("/profiles", profilesController.fetchProfiles);
 app.put("/profiles/:id", profilesController.updateProfile);

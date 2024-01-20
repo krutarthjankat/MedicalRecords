@@ -29,7 +29,10 @@ const createProfile = async (req, res, next) => {
     console.log(user._id);
     const token = createSecretToken(JSON.stringify(user._id));
     console.log(token);
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      withCredentials: true,
+      httpOnly: false,
+    });
     res
       .status(201)
       .json({
@@ -94,7 +97,10 @@ const checkProfile = async (req, res, next) => {
     }
     const token = createSecretToken(user._id);
     console.log(token);
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      withCredentials: true,
+      httpOnly: false,
+    });
     res
       .status(201)
       .json({

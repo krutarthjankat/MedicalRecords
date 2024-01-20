@@ -176,8 +176,8 @@ const SignUp = () => {
       try {
         const { data } = await axios.post(
           "https://medicalrecords.onrender.com/signup",
-          createForm
-          // { withCredentials: true }
+          createForm,
+          { withCredentials: true }
         );
         console.log(data);
         const { success, message } = data;
@@ -250,7 +250,7 @@ const SignUp = () => {
                   name="firstname"
                   id="firstname"
                   required
-                  autocomplete="off"
+                  autoComplete="off"
                 />
               </div>
               <div className={`${styles.inputdiv}`}>
@@ -264,7 +264,7 @@ const SignUp = () => {
                   name="lastname"
                   id="lastname"
                   required
-                  autocomplete="off"
+                  autoComplete="off"
                 />
               </div>
             </div>
@@ -284,7 +284,7 @@ const SignUp = () => {
                   name="username"
                   id="username"
                   required
-                  autocomplete="off"
+                  autoComplete="off"
                 />
               </div>
               <div className={`${styles.inputdiv}`}>
@@ -298,7 +298,7 @@ const SignUp = () => {
                   name="mobno"
                   id="mobno"
                   required
-                  autocomplete="off"
+                  autoComplete="off"
                 />
               </div>
             </div>
@@ -314,7 +314,7 @@ const SignUp = () => {
                   name="emailid"
                   id="emailid"
                   required
-                  autocomplete="off"
+                  autoComplete="off"
                 />
               </div>
             </div>
@@ -331,7 +331,7 @@ const SignUp = () => {
                   id="password"
                   required
                   placeholder="abcd1234"
-                  autocomplete="off"
+                  autoComplete="off"
                 />
               </div>
             </div>
@@ -387,7 +387,7 @@ const SignUp = () => {
                 type="text"
                 required
                 className={`${styles.inputs}`}
-                autocomplete="off"
+                autoComplete="off"
               />
             </motion.div>
 

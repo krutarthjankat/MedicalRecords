@@ -131,7 +131,6 @@ function Login() {
   //Checking validity of inputs
   const checkLogin = async (e) => {
     e.preventDefault();
-    console.log(form);
     try {
       const { data } = await axios.post(
         "https://medicalrecords.onrender.com/login",
@@ -140,10 +139,10 @@ function Login() {
           withCredentials: true,
         }
       );
+      console.log(data);
       const { success, message } = data;
       if (success) {
         console.log(message);
-        // localStorage.setItem("isLoggedIn", res.data.id);
         navigate(`/Dashboard`);
       } else {
         console.log(data.status);
