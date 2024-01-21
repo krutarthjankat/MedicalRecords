@@ -101,14 +101,14 @@ const checkProfile = async (req, res, next) => {
     console.log(token);
     res.cookie("token", token, {
       // domain: "krutarthjankat.github.io",
-      path: "/MedicalRecords",
-      // secure: true,
-      // sameSite: "none",
-      withCredentials: true,
+      path: "/",
+      secure: true,
+      sameSite: "none",
+      // withCredentials: true,
     });
     res.cookie("token", token, {
       domain: "krutarthjankat.github.io",
-      path: "/MedicalRecords",
+      path: "/",
       secure: true,
       sameSite: "none",
       withCredentials: true,
