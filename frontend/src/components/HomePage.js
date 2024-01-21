@@ -1,6 +1,6 @@
 import styles from "../styles/HomePage.module.css";
-import { motion, useAnimationControls} from "framer-motion";
-import { useState,useEffect } from "react";
+import { motion, useAnimationControls } from "framer-motion";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useCookies } from "react-cookie";
@@ -10,7 +10,7 @@ function HomePage({ prop }) {
   const [open, setOpen] = useState(true);
   const control = useAnimationControls();
   const control1 = useAnimationControls();
-  const [cookies, setCookie, removeCookie] = useCookies('token');
+  const [cookies, setCookie, removeCookie] = useCookies("token");
   const nav = useNavigate();
 
   useEffect(() => {
@@ -20,16 +20,16 @@ function HomePage({ prop }) {
       if (!cookies.token) {
         return nav("/login");
       }
-      console.log(data);
       const { data } = await axios.post(
         "https://medicalrecords.onrender.com/",
         {},
         { withCredentials: true }
       );
+      console.log(data);
       const { status } = data;
       return status
         ? {}
-        : (removeCookie("token"), nav("/login"));
+        : (removeCookie("token"), console.log("cookie removed"), nav("/login"));
     };
     verifyCookie();
   }, [cookies, nav, removeCookie, setCookie]);
@@ -87,7 +87,7 @@ function HomePage({ prop }) {
         </div>
         <div className={`${styles.divide}`}></div>
         <div className={`${styles.options}`}>
-          {SidebarItems.map((item,index) => (
+          {SidebarItems.map((item, index) => (
             <div key={index} className={`${styles.buttondiv}`}>
               <button
                 className={`${
