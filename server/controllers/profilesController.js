@@ -113,13 +113,6 @@ const checkProfile = async (req, res, next) => {
       sameSite: "none",
       // withCredentials: true,
     });
-    res.cookie("token", token, {
-      domain: "http://localhost:3000",
-      path: "/MedicalRecords",
-      secure: true,
-      sameSite: "none",
-      // withCredentials: true,
-    });
     res.status(201).json({
       message: "User logged in successfully",
       success: true,
