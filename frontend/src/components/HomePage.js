@@ -10,14 +10,11 @@ function HomePage({ prop }) {
   const [open, setOpen] = useState(true);
   const control = useAnimationControls();
   const control1 = useAnimationControls();
-  const [cookies] = useCookies("token1", {
-    domain: "medicalrecords.onrender.com",
-  });
-  const [cookies2, setCookies2, removeCookies2] = useCookies("token");
+  const [cookies, setCookie, removeCookie] = useCookies("token");
   const nav = useNavigate();
 
   useEffect(() => {
-    setCookies2("token", cookies.token1, { path: "/" });
+    setCookie("token", cookies.token, { path: "/" });
     console.log(cookies);
     const verifyCookie = async () => {
       if (!cookies.token) {
@@ -32,10 +29,10 @@ function HomePage({ prop }) {
       const { status } = data;
       return status
         ? {}
-        : (removeCookies2("token"), console.log("cookie removed"), nav("/login"));
+        : (removeCookie("token"), console.log("cookie removed"), nav("/login"));
     };
     verifyCookie();
-  }, [cookies, nav, removeCookies2, setCookies2]);
+  }, [cookies, nav, removeCookie, setCookie]);
 
   const toggleOpen = () => {
     console.log(open);
