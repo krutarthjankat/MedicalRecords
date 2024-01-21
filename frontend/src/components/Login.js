@@ -135,10 +135,9 @@ function Login() {
       const { data } = await axios.post(
         "https://medicalrecords.onrender.com/login",
         form,
-        {
-          withCredentials: true,
-          credentials: "include",
-        }
+        // {
+        //   withCredentials: true,
+        // }
       );
       console.log(data);
       const { success, message } = data;
