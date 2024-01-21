@@ -10,11 +10,10 @@ function HomePage({ prop }) {
   const [open, setOpen] = useState(true);
   const control = useAnimationControls();
   const control1 = useAnimationControls();
-  const [cookies, setCookie, removeCookie] = useCookies("token");
+  const [cookies, , removeCookie] = useCookies("token");
   const nav = useNavigate();
 
   useEffect(() => {
-    setCookie("token", cookies.token, { path: "/" });
     console.log(cookies);
     const verifyCookie = async () => {
       if (!cookies.token) {
@@ -32,7 +31,7 @@ function HomePage({ prop }) {
         : (removeCookie("token"), console.log("cookie removed"), nav("/login"));
     };
     verifyCookie();
-  }, [cookies, nav, removeCookie, setCookie]);
+  }, [cookies, nav, removeCookie]);
 
   const toggleOpen = () => {
     console.log(open);

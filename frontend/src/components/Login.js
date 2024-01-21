@@ -4,7 +4,7 @@ import styles from "../styles/Login.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, useAnimationControls } from "framer-motion";
 import { usePageContext } from "../store/PageContext.js";
-// import { useCookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 
 function Login() {
   // State
@@ -14,7 +14,7 @@ function Login() {
     password: "",
   });
   const [type, setType] = useState("password");
-  // const [cookies] = useCookies("token");
+  const [cookies,setCookies] = useCookies("token");
   const { setDimLogin, setDimSignUp, dimSignUp, dimLogin } = usePageContext();
   const LoginRef = useRef();
   const pgRef = useRef();
@@ -141,9 +141,10 @@ function Login() {
         }
       );
       console.log(data);
-      const { success, message } = data;
+      const { success, message ,token} = data;
       if (success) {
         console.log(message);
+        setCookies("token", token, { path: "/" });
         navigate(`/Dashboard`);
       } else {
         console.log(data.status);

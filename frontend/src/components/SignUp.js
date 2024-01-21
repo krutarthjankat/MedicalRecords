@@ -6,6 +6,7 @@ import { motion, useAnimationControls } from "framer-motion";
 import { usePageContext } from "../store/PageContext.js";
 import doctor from "../assets/doctor.png";
 import nurse from "../assets/nurse.png";
+import { useCookies } from "react-cookie";
 
 const SignUp = () => {
   const [profiles, setProfiles] = useState();
@@ -19,6 +20,7 @@ const SignUp = () => {
   const { setDimSignUp, setDimLogin, dimLogin, dimSignUp } = usePageContext();
   const SignUpRef = useRef();
   const pgRef = useRef();
+  const [cookies, setCookies] = useCookies("token");
   const controls = useAnimationControls();
   const controlh = useAnimationControls();
   const navigate = useNavigate();
@@ -182,9 +184,10 @@ const SignUp = () => {
           }
         );
         console.log(data);
-        const { success, message } = data;
+        const { success, message, token } = data;
         if (success) {
           console.log(message);
+          setCookies("token", token, { path: "/" });
           setAlert(true);
           setTimeout(() => {
             navigate(`/dashboard`);
@@ -236,7 +239,10 @@ const SignUp = () => {
           <h1>Sign Up</h1>
           <form onSubmit={createProfile}>
             {alert && (
-              <div className={`alert alert-success ${styles.alert}`} role="alert">
+              <div
+                className={`alert alert-success ${styles.alert}`}
+                role="alert"
+              >
                 Signed up successfully
               </div>
             )}
