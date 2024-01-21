@@ -32,10 +32,10 @@ const createProfile = async (req, res, next) => {
     res.cookie("token", token, {
       domain: "krutarthjankat.github.io",
       path: "/MedicalRecords",
-      secure: true,
+      // secure: true,
       sameSite: "none",
-      withCredentials: true,
-      httpOnly: false,
+      // withCredentials: true,
+      // httpOnly: false,
     });
     res.status(201).json({
       message: "User signed up successfully",
@@ -100,9 +100,16 @@ const checkProfile = async (req, res, next) => {
     const token = createSecretToken(user._id);
     console.log(token);
     res.cookie("token", token, {
+      // domain: "krutarthjankat.github.io",
+      path: "/MedicalRecords",
+      // secure: true,
+      sameSite: "none",
+      // withCredentials: true,
+    });
+    res.cookie("token", token, {
       domain: "krutarthjankat.github.io",
       path: "/MedicalRecords",
-      secure: true,
+      // secure: true,
       sameSite: "none",
       // withCredentials: true,
     });
