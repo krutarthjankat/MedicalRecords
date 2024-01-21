@@ -20,8 +20,9 @@ function HomePage({ prop }) {
       if (!cookies.token) {
         return nav("/login");
       }
+      console.log(data);
       const { data } = await axios.post(
-        "http://localhost:3000/",
+        "https://medicalrecords.onrender.com/",
         {},
         { withCredentials: true }
       );
