@@ -32,7 +32,7 @@ const createProfile = async (req, res, next) => {
     res.cookie("token", token, {
       domain: "krutarthjankat.github.io",
       path: "/MedicalRecords",
-      // secure: true,
+      secure: true,
       sameSite: "none",
       // withCredentials: true,
       // httpOnly: false,
@@ -109,7 +109,7 @@ const checkProfile = async (req, res, next) => {
     res.cookie("token", token, {
       domain: "krutarthjankat.github.io",
       path: "/MedicalRecords",
-      // secure: true,
+      secure: true,
       sameSite: "none",
       // withCredentials: true,
     });
