@@ -99,20 +99,18 @@ const checkProfile = async (req, res, next) => {
     }
     const token = createSecretToken(user._id);
     console.log(token);
-    res.cookie("token1", token, {
+    res.cookie("token", token, {
       // domain: "krutarthjankat.github.io",
       // path: "/",
       secure: true,
       sameSite: "none",
-      withCredentials: true,
     });
-    res.cookie("token", token, {
-      domain: ".krutarthjankat.github.io",
-      path: "/",
-      secure: true,
-      sameSite: "none",
-      withCredentials: true,
-    });
+    // res.cookie("token", token, {
+    //   domain: ".krutarthjankat.github.io",
+    //   path: "/",
+    //   secure: true,
+    //   sameSite: "none",   
+    // });
     res.status(201).json({
       message: "User logged in successfully",
       success: true,
