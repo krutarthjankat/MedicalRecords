@@ -102,8 +102,8 @@ const checkProfile = async (req, res, next) => {
     res.cookie("token", token, {
       // domain: "krutarthjankat.github.io",
       path: "/MedicalRecords",
-      secure: true,
-      sameSite: "none",
+      // secure: true,
+      // sameSite: "none",
       withCredentials: true,
     });
     res.cookie("token", token, {
@@ -111,7 +111,7 @@ const checkProfile = async (req, res, next) => {
       path: "/MedicalRecords",
       secure: true,
       sameSite: "none",
-      // withCredentials: true,
+      withCredentials: true,
     });
     res.status(201).json({
       message: "User logged in successfully",
