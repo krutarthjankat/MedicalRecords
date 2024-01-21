@@ -136,6 +136,7 @@ function Login() {
         "https://medicalrecords.onrender.com/login",
         form,
         {
+          credentials: 'include',
           withCredentials: true,
         }
       );

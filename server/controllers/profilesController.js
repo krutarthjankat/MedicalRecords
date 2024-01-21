@@ -101,17 +101,17 @@ const checkProfile = async (req, res, next) => {
     console.log(token);
     res.cookie("token", token, {
       // domain: "krutarthjankat.github.io",
-      path: "/",
+      // path: "/",
       secure: true,
       sameSite: "none",
-      // withCredentials: true,
+      withCredentials: true,
     });
     res.cookie("token", token, {
       domain: "krutarthjankat.github.io",
       path: "/",
       secure: true,
       sameSite: "none",
-      // withCredentials: true,
+      withCredentials: true,
     });
     res.status(201).json({
       message: "User logged in successfully",

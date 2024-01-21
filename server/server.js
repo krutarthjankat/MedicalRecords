@@ -33,21 +33,24 @@ cron.schedule("*/180 * * * * *", function () {
     });
 });
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3001",
-      "https://krutarthjankat.github.io",
-      "http://localhost:3000",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    // credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:3001",
+//       "https://krutarthjankat.github.io",
+//       "http://localhost:3000",
+//     ],
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     credentials: true,
+//   })
+// );
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin","*");
+  res.header("Access-Control-Allow-Origin",
+    "https://krutarthjankat.github.io",
+   );
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type");
+  res.header("Access-Control-Allow-Credentials",true);
   next();
 });
 
