@@ -4,7 +4,7 @@ if (process.env.NODE_ENV != "production") {
 const express = require("express");
 const cors = require("cors");
 const connectToDb = require("./config/connectToDb");
-const cron = require("node-cron"); 
+const cron = require("node-cron");
 const https = require("https");
 const profilesController = require("./controllers/profilesController");
 const cookieParser = require("cookie-parser");
@@ -35,15 +35,7 @@ cron.schedule("*/180 * * * * *", function () {
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://medicalrecords.onrender.com",
-      "https://krutarthjankat.github.io",
-      "http://localhost:3000/MedicalRecords",
-      "http://localhost:3001/MedicalRecords",
-      "https://krutarthjankat.github.io/MedicalRecords",
-    ],
+    origin: ["http://localhost:3000", "http://localhost:3001"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })

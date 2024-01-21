@@ -1,5 +1,5 @@
 const Profile = require("../models/profile.js");
-const { createSecretToken } = require("../util/SecretToken");
+const { createSecretToken } = require("../util/SecretToken.js");
 const bcrypt = require("bcryptjs");
 
 const fetchProfiles = async (req, res) => {
@@ -29,17 +29,20 @@ const createProfile = async (req, res, next) => {
     console.log(user._id);
     const token = createSecretToken(JSON.stringify(user._id));
     console.log(token);
-    res.cookie("token", token, {
-      // withCredentials: true,
-      httpOnly: false,
+    res.cookie(
+      "token",
+      token,
+      { domain: ".github.io", path: "/", secure: true },
+      {
+        withCredentials: true,
+        httpOnly: false,
+      }
+    );
+    res.status(201).json({
+      message: "User signed up successfully",
+      success: true,
+      user: user,
     });
-    res
-      .status(201)
-      .json({
-        message: "User signed up successfully",
-        success: true,
-        user: user,
-      });
     next();
   } catch (error) {
     console.error(error);
@@ -97,17 +100,20 @@ const checkProfile = async (req, res, next) => {
     }
     const token = createSecretToken(user._id);
     console.log(token);
-    res.cookie("token", token, {
-      // withCredentials: true,
-      httpOnly: false,
+    res.cookie(
+      "token",
+      token,
+      { domain: ".github.io", path: "/", secure: true },
+      {
+        withCredentials: true,
+        httpOnly: false,
+      }
+    );
+    res.status(201).json({
+      message: "User logged in successfully",
+      success: true,
+      id: user._id,
     });
-    res
-      .status(201)
-      .json({
-        message: "User logged in successfully",
-        success: true,
-        id: user._id,
-      });
     next();
   } catch (error) {
     console.error(error);

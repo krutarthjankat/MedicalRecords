@@ -15,6 +15,7 @@ function HomePage({ prop }) {
 
   useEffect(() => {
     setCookie("token", cookies.token, { path: "/" });
+    console.log(cookies);
     const verifyCookie = async () => {
       if (!cookies.token) {
         return nav("/login");

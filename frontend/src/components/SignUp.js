@@ -177,7 +177,10 @@ const SignUp = () => {
         const { data } = await axios.post(
           "https://medicalrecords.onrender.com/signup",
           createForm,
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            credentials: "include",
+          }
         );
         console.log(data);
         const { success, message } = data;
