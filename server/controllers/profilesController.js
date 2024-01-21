@@ -100,8 +100,8 @@ const checkProfile = async (req, res, next) => {
     const token = createSecretToken(user._id);
     console.log(token);
     res.cookie("token", token, {
-      // domain: "krutarthjankat.github.io",
-      // path: "/MedicalRecords",
+      domain: "krutarthjankat.github.io",
+      path: "/MedicalRecords",
       secure: true,
       sameSite: "none",
       withCredentials: true,
