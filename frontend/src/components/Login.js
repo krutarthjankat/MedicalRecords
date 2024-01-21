@@ -132,10 +132,14 @@ function Login() {
   const checkLogin = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("http://localhost:3000/login", form, {
-        withCredentials: true,
-        credentials: "include",
-      });
+      const { data } = await axios.post(
+        "https://medicalrecords.onrender.com/login",
+        form,
+        {
+          withCredentials: true,
+          credentials: "include",
+        }
+      );
       console.log(data);
       const { success, message } = data;
       if (success) {
