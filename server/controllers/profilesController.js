@@ -111,7 +111,7 @@ const checkProfile = async (req, res, next) => {
       path: "/",
       secure: true,
       sameSite: "none",
-      withCredentials: true,
+      // withCredentials: true,
     });
     res.status(201).json({
       message: "User logged in successfully",
