@@ -144,7 +144,8 @@ function Login() {
       const { success, message ,token} = data;
       if (success) {
         console.log(message);
-        setCookies("token", token, { path: "/" });
+        setCookies("token", token, { path: "/MedicalRecords" });
+        setTimeout(()=>{},500);
         navigate(`/Dashboard`);
       } else {
         console.log(data.status);
