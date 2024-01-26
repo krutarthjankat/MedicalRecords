@@ -21,7 +21,7 @@ function HomePage({ prop }) {
       }
       const { data } = await axios.post(
         "https://medicalrecords.onrender.com/",
-        {},
+        {token:cookies.token},
         { withCredentials: true }
       );
       console.log(data);
