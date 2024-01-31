@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import { baseurl } from "../App";
 
 function HomePage({ prop }) {
   const [open, setOpen] = useState(true);
@@ -14,13 +15,12 @@ function HomePage({ prop }) {
   const nav = useNavigate();
 
   useEffect(() => {
-    console.log(cookies);
     const verifyCookie = async () => {
       if (!cookies.token) {
         return nav("/login");
       }
       const { data } = await axios.post(
-        "https://medicalrecords.onrender.com/",
+        baseurl+"/",
         {token:cookies.token},
         { withCredentials: true }
       );
@@ -149,7 +149,7 @@ function HomePage({ prop }) {
               <Dropdown.Divider />
               <Dropdown.Item
                 onClick={() => {
-                  removeCookie("token", { path: "/" });
+                  removeCookie("token", { path: "/MedicalRecords" });
                   nav(`../login`);
                 }}
               >

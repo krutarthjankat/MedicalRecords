@@ -1,8 +1,23 @@
 import styles from "../../styles/PatientList.module.css";
 function PatientList() {
+  const toggleExpand = (e) => {
+    const maindiv =
+      e.target.parentElement.parentElement.parentElement.parentElement
+        .parentElement;
+    if (!maindiv.classList.contains(styles.isactive)) {
+      maindiv.classList.add(`${styles.isactive}`);
+
+      console.log(e.target.lastChild.textContent);
+      e.target.lastChild.textContent = " Show Less";
+    } else {
+      maindiv.classList.remove(`${styles.isactive}`);
+
+      e.target.lastChild.textContent = " Show More";
+    }
+  };
 
   const List = [
-    { 
+    {
       name: "John Doe",
       updatedby: "Nurse Jane",
       updatetime: "3:00am, 8th Jan 2024",
@@ -25,10 +40,13 @@ function PatientList() {
   ];
 
   return (
-    <div className="container">
-      {List.map((item,index) => (
-        <div key={index} className="card mt-5 border-5 pt-2 active pb-0 px-3">
-          <div className="card-body ">
+    <div>
+      {List.map((item, index) => (
+        <div
+          key={index}
+          className={`card border-5 mb-3  pb-0 px-3 w-full ${styles.maindiv}`}
+        >
+          <div className="card-body">
             <div className="row">
               <div className="col-12 ">
                 <h4 className="card-title ">
@@ -40,7 +58,10 @@ function PatientList() {
                   <p className="card-text text-muted small ">
                     <span className="vl mr-2 ml-0"></span>
                     Last updated by{" "}
-                    <span className="font-weight-bold"> {item.updatedby}</span>{" "}
+                    <span className="font-weight-bold">
+                      {" "}
+                      {item.updatedby}
+                    </span>{" "}
                     {item.updatetime}
                   </p>
                 </h6>
@@ -63,20 +84,24 @@ function PatientList() {
                   />{" "}
                   <small>Edit Data</small>
                 </a>
-                <a href="#" className="btn btn-outlined btn-black text-muted ">
+                <a
+                  onClick={toggleExpand}
+                  href="#"
+                  className="btn btn-outlined btn-black text-muted "
+                >
                   <img
                     src="https://img.icons8.com/metro/26/000000/more.png"
                     width="20"
                     height="20"
                     className="mr-2 more"
                   />
-                  <small>MORE</small>
+                  <small> Show More</small>
                 </a>
                 <span className="vl ml-3"></span>
               </div>
 
-              <div className="col-md-auto ">
-                <ul className="list-inline">
+              <div className="col-md-auto w-full">
+                <ul className="list-inline d-flex justify-content-end align-items-end">
                   <li className="list-inline-item">
                     {" "}
                     <img

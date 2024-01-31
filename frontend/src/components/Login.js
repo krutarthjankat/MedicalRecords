@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, useAnimationControls } from "framer-motion";
 import { usePageContext } from "../store/PageContext.js";
 import { useCookies } from "react-cookie";
+import { baseurl } from "../App.js";
 
 function Login() {
   // State
@@ -14,15 +15,18 @@ function Login() {
     password: "",
   });
   const [type, setType] = useState("password");
-  const [cookies,setCookies] = useCookies("token");
+  const [cookies, setCookies] = useCookies("token");
   const { setDimLogin, setDimSignUp, dimSignUp, dimLogin } = usePageContext();
   const LoginRef = useRef();
   const pgRef = useRef();
   const navigate = useNavigate();
   const control = useAnimationControls();
-
+  const control1 = useAnimationControls();
+  const [isLoading, setIsLoading] = useState(false);
+  console.log(cookies.token);
   useEffect(() => {
     // fetchProfiles();
+    console.log(cookies);
     if (pgRef.current.clientWidth < 370) {
       setDimSignUp({ height: 280, width: 200 });
     } else if (pgRef.current.clientWidth < 500) {
@@ -47,10 +51,18 @@ function Login() {
         width: LoginRef.current.clientWidth,
       });
     }
+    control1.start({
+      scale: [15, 0],
+      transition: {
+        times: [0, 1],
+        ease: "easeInOut",
+        duration: 0.4,
+      },
+    });
   }, [LoginRef, setDimLogin]);
 
   //Various Animations
-  const routeVariants = {
+  var routeVariants = {
     initial: {
       y: "0vh",
       opacity: 0,
@@ -65,35 +77,14 @@ function Login() {
       },
     },
     exit: {
-      scaleX: [1, dimSignUp.width / dimLogin.width],
-      scaleY: [1, dimSignUp.height / dimLogin.height],
+      scaleX: [1, (cookies.token) ? 4 : dimSignUp.width / dimLogin.width],
+      scaleY: [1, (cookies.token) ? 2 : dimSignUp.height / dimLogin.height],
       opacity: [1, 0.8],
       transition: {
         delay: 0.2,
         times: [0, 1],
         ease: "easeInOut",
-        duration: 0.6,
-      },
-    },
-  };
-  const abc = {
-    show: {
-      scale: [15, 0],
-      transition: {
-        times: [0, 1],
-        ease: "easeInOut",
-        duration: 0.4,
-      },
-    },
-    hide: {
-      scale: 0,
-    },
-    exit: {
-      scale: [0, 15],
-      transition: {
-        times: [0, 1],
-        ease: "easeInOut",
-        duration: 0.5,
+        duration: cookies.token ? 0.2 : 0.6,
       },
     },
   };
@@ -131,37 +122,60 @@ function Login() {
   //Checking validity of inputs
   const checkLogin = async (e) => {
     e.preventDefault();
+    control1.start({
+      scale: [0, 15],
+      transition: {
+        times: [0, 1],
+        ease: "easeInOut",
+        duration: 0.4,
+      },
+    });
+    setTimeout(() => {
+      setIsLoading(true);
+    }, 200);
+
     try {
-      const { data } = await axios.post(
-        "https://medicalrecords.onrender.com/login",
-        form,
-        {
-          credentials: 'include',
-          withCredentials: true,
-        }
-      );
+      const { data } = await axios.post(baseurl + "/login", form, {
+        credentials: "include",
+        withCredentials: true,
+      });
       console.log(data);
-      const { success, message ,token} = data;
-      if (success) {
-        console.log(message);
-        setCookies("token", token, { path: "/MedicalRecords" });
-        setTimeout(()=>{},500);
-        navigate(`/Dashboard`);
-      } else {
-        console.log(data.status);
-        control.start({
-          opacity: [0, 1, 1, 0],
-          y: ["-20px", "0px", "0px", "-20px"],
-          transition: {
-            times: [0, 0.1, 0.99, 1],
-            duration: 4,
-          },
-        });
-        const usr = document.getElementById("username");
-        const pas = document.getElementById("password");
-        usr.classList.remove(`${styles.hascontent}`);
-        pas.classList.remove(`${styles.hascontent}`);
-      }
+      const { success, message, token } = data;
+
+      setTimeout(() => {
+        setIsLoading(false);
+        if (success) {
+          console.log(message);
+          setCookies("token", token, { path: "/MedicalRecords" });
+
+          setTimeout(() => {}, 1000);
+          navigate(`/Dashboard`);
+        } else {
+          console.log(data.status);
+          control1.start({
+            scale: [15, 0],
+            transition: {
+              times: [0, 1],
+              ease: "easeInOut",
+              duration: 0.4,
+            },
+          });
+
+          control.start({
+            opacity: [0, 1, 1, 0],
+            y: ["-20px", "0px", "0px", "-20px"],
+            transition: {
+              times: [0, 0.1, 0.99, 1],
+              duration: 3,
+              delay: 0.5,
+            },
+          });
+          const usr = document.getElementById("username");
+          const pas = document.getElementById("password");
+          usr.classList.remove(`${styles.hascontent}`);
+          pas.classList.remove(`${styles.hascontent}`);
+        }
+      }, 2000);
     } catch (error) {
       console.log(error);
     }
@@ -184,12 +198,23 @@ function Login() {
           className={styles.form}
         >
           <motion.div
-            variants={abc}
-            animate="show"
-            exit="exit"
+            animate={control1}
             className={styles.animate}
           ></motion.div>
-
+          {isLoading && (
+            <div className="row container d-flex justify-content-center">
+              <div className="col-md-4 col-sm-6 grid-margin stretch-card">
+                <div className={`${styles.loaderdemobox}`}>
+                  <div className={`${styles.jumpingdotsloader}`}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           <motion.div
             initial={{ opacity: 0 }}
             exit={{ opacity: 0 }}
@@ -258,7 +283,19 @@ function Login() {
             </div>
           </div>
           <div className={styles.links}>
-            <Link to="/signup">
+            <Link
+              onClick={() => {
+                control1.start({
+                  scale: [0, 15],
+                  transition: {
+                    times: [0, 1],
+                    ease: "easeInOut",
+                    duration: 0.4,
+                  },
+                });
+              }}
+              to="/signup"
+            >
               <span>Sign Up</span>
             </Link>
             <Link>

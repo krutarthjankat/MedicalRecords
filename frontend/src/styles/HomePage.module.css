@@ -99,14 +99,14 @@
 }
 .search {
   height: 3vw;
-  width: 100%;
+  width: 100% !important;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   background-color: #212a3e;
   & input {
-    width: 100%;
+    width: 100% !important;
     background-color: #212a3e;
     border-color: aliceblue;
     border: none;

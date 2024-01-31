@@ -28,7 +28,7 @@ const createProfile = async (req, res, next) => {
     });
     console.log(user._id);
     const token = createSecretToken(JSON.stringify(user._id));
-    console.log(token);
+    // console.log(token);
     // res.cookie("token", token, {
     //   domain: "krutarthjankat.github.io",
     //   path: "/MedicalRecords",
@@ -99,7 +99,7 @@ const checkProfile = async (req, res, next) => {
       return res.json({ message: "Incorrect password or email" });
     }
     const token = createSecretToken(user._id);
-    console.log(token);
+    // console.log(token);
     // res.cookie("token", token, {
     //   domain: "krutarthjankat.github.io",
     //   path: "/",

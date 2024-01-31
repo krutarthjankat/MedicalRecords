@@ -18,6 +18,9 @@ import Settings from "./components/Content/Settings.js";
 import EditProfile from "./components/Content/EditProfile.js";
 import { CookiesProvider } from "react-cookie";
 
+export const baseurl = "https://medicalrecords.onrender.com";
+// export const baseurl = "http://localhost:3000";
+
 function RoutesWithAnimation() {
   const location = useLocation();
   console.log(location);

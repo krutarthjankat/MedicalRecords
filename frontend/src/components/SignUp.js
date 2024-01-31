@@ -7,11 +7,13 @@ import { usePageContext } from "../store/PageContext.js";
 import doctor from "../assets/doctor.png";
 import nurse from "../assets/nurse.png";
 import { useCookies } from "react-cookie";
+import { baseurl } from "../App.js";
 
 const SignUp = () => {
   const [profiles, setProfiles] = useState();
   const [display, setDisplay] = useState(true);
   const [alert, setAlert] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [taken, setTaken] = useState({
     username: false,
     mobno: false,
@@ -23,6 +25,7 @@ const SignUp = () => {
   const [cookies, setCookies] = useCookies("token");
   const controls = useAnimationControls();
   const controlh = useAnimationControls();
+  const control1 = useAnimationControls();
   const navigate = useNavigate();
   const [createForm, setCreateForm] = useState({
     firstname: "",
@@ -33,9 +36,9 @@ const SignUp = () => {
     password: "",
   });
 
-  useEffect(() => {
-    fetchProfiles();
-  }, []);
+  // useEffect(() => {
+  //   fetchProfiles();
+  // }, []);
 
   useEffect(() => {
     if (SignUpRef.current) {
@@ -45,7 +48,15 @@ const SignUp = () => {
         width: SignUpRef.current.clientWidth,
       });
     }
-  }, [SignUpRef, setDimSignUp]);
+    control1.start({
+      scale: [15, 0],
+      transition: {
+        times: [0, 1],
+        ease: "easeInOut",
+        duration: 0.4,
+      },
+    });
+  }, [SignUpRef, setDimSignUp, control1]);
 
   useEffect(() => {
     if (pgRef.current.clientWidth < 500) {
@@ -98,45 +109,21 @@ const SignUp = () => {
       },
     },
     exit: {
-      scaleX: [1, dimLogin.width / dimSignUp.width],
-      scaleY: [1, dimLogin.height / dimSignUp.height],
+      scaleX: [1, !cookies ? 3 : dimLogin.width / dimSignUp.width],
+      scaleY: [1, !cookies ? 2 : dimLogin.height / dimSignUp.height],
       opacity: [1, 1],
       transition: {
         delay: 0.2,
         times: [0, 1],
         ease: "easeInOut",
-        duration: 0.6,
+        duration: !cookies ? 0.2 : 0.6,
       },
     },
   };
-
-  const abc = {
-    show: {
-      scale: [15, 0],
-      transition: {
-        times: [0, 1],
-        ease: "easeInOut",
-        duration: 0.4,
-      },
-    },
-    hide: {
-      scale: 0,
-    },
-    exit: {
-      scale: [0, 15],
-
-      transition: {
-        times: [0, 1],
-        ease: "easeInOut",
-        duration: 0.5,
-      },
-    },
-  };
-
-  const fetchProfiles = async () => {
-    const res = await axios.get("https://medicalrecords.onrender.com/profiles");
-    setProfiles(res.data.profiles);
-  };
+  // const fetchProfiles = async () => {
+  //   const res = await axios.get("https://medicalrecords.onrender.com/profiles");
+  //   setProfiles(res.data.profiles);
+  // };
 
   //Updating and checking input fields
   const updateCreateFormField = (e) => {
@@ -174,41 +161,51 @@ const SignUp = () => {
   const createProfile = async (e) => {
     e.preventDefault();
     const key = document.getElementById("key");
+    control1.start({
+      scale: [0, 15],
+      transition: {
+        times: [0, 1],
+        ease: "easeInOut",
+        duration: 0.4,
+      },
+    });
+    setTimeout(() => {
+      setIsLoading(true);
+    }, 300);
+
     if (key.value === "abcd") {
       try {
-        const { data } = await axios.post(
-          "https://medicalrecords.onrender.com/signup",
-          createForm,
-          {
-            withCredentials: true,
-          }
-        );
+        const { data } = await axios.post(baseurl + "/signup", createForm, {
+          withCredentials: true,
+        });
         console.log(data);
         const { success, message, token } = data;
-        if (success) {
-          console.log(message);
-          setCookies("token", token, { path: "/" });
-          setAlert(true);
-          setTimeout(() => {
-            navigate(`/dashboard`);
-          }, 1000);
-          setProfiles([...profiles, data.profile]);
-        } else {
-          console.log(message);
-        }
+        setTimeout(() => {
+          setIsLoading(false);
+          if (success) {
+            console.log(message);
+            setCookies("token", token, { path: "/MedicalRecords" });
+            setAlert(true);
+            setTimeout(() => {
+              navigate(`/dashboard`);
+            }, 500);
+            setProfiles([...profiles, data.profile]);
+          } else {
+            control1.start({
+              scale: [15, 0],
+              transition: {
+                times: [0, 1],
+                ease: "easeInOut",
+                duration: 0.4,
+              },
+            });
+            console.log(message);
+          }
+        }, 2000);
       } catch (error) {
         console.log(error);
       }
     }
-    // if (key.value === "abcd") {
-    //   const res = await axios.post(
-    //     "https://medicalrecords.onrender.com/profiles",
-    //     createForm
-    //   );
-    //   setAlert(true);
-    //   setTimeout(() => navigate("/dashboard"), 1000);
-    //   setProfiles([...profiles, res.data.profile]);
-    // }
     setCreateForm({
       firstname: "",
       lastname: "",
@@ -231,11 +228,23 @@ const SignUp = () => {
           className={`${styles.form}`}
         >
           <motion.div
-            variants={abc}
-            animate="show"
-            exit="exit"
+            animate={control1}
             className={styles.animate}
           ></motion.div>
+          {isLoading && (
+            <div className="row container d-flex justify-content-center">
+              <div className="col-md-4 col-sm-6 grid-margin stretch-card">
+                <div className={`${styles.loaderdemobox}`}>
+                  <div className={`${styles.jumpingdotsloader}`}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           <h1>Sign Up</h1>
           <form onSubmit={createProfile}>
             {alert && (
@@ -419,7 +428,19 @@ const SignUp = () => {
               </div>
             </div>
             <div className={styles.links}>
-              <Link to="/login">
+              <Link
+                onClick={() => {
+                  control1.start({
+                    scale: [0, 15],
+                    transition: {
+                      times: [0, 1],
+                      ease: "easeInOut",
+                      duration: 0.4,
+                    },
+                  });
+                }}
+                to="/login"
+              >
                 <span>Already have an account? Login</span>
               </Link>
             </div>
