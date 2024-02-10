@@ -10,15 +10,14 @@ import { useCookies } from "react-cookie";
 import { baseurl } from "../App.js";
 
 const SignUp = () => {
-  const [profiles, setProfiles] = useState();
   const [display, setDisplay] = useState(true);
   const [alert, setAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [taken, setTaken] = useState({
-    username: false,
-    mobno: false,
-    emailid: false,
-  });
+  // const [taken, setTaken] = useState({
+  //   username: false,
+  //   mobno: false,
+  //   emailid: false,
+  // });
   const { setDimSignUp, setDimLogin, dimLogin, dimSignUp } = usePageContext();
   const SignUpRef = useRef();
   const pgRef = useRef();
@@ -34,6 +33,8 @@ const SignUp = () => {
     mobno: "",
     emailid: "",
     password: "",
+    category: "",
+    passkey: "",
   });
 
   // useEffect(() => {
@@ -128,29 +129,29 @@ const SignUp = () => {
   //Updating and checking input fields
   const updateCreateFormField = (e) => {
     const { name, value } = e.target;
-    const check = {
-      ...createForm,
-      [name]: value,
-    };
-    if (profiles) {
-      profiles.forEach((element) => {
-        if (element.username === check.username) {
-          setTaken({ username: true });
-        } else {
-          setTaken({ ...taken, username: false });
-        }
-        // if (element.mobno === check.mobno) {
-        //   setTaken({ ...taken, [name]: true });
-        // } else {
-        //   setTaken({ ...taken, [name]: false });
-        // }
-        // if (element.emailid === check.emailid) {
-        //   setTaken({ ...taken, [name]: true });
-        // } else {
-        //   setTaken({ ...taken, [name]: false });
-        // }
-      });
-    }
+    // const check = {
+    //   ...createForm,
+    //   [name]: value,
+    // };
+    // if (profiles) {
+    //   profiles.forEach((element) => {
+    //     if (element.username === check.username) {
+    //       setTaken({ username: true });
+    //     } else {
+    //       setTaken({ ...taken, username: false });
+    //     }
+    //     if (element.mobno === check.mobno) {
+    //       setTaken({ ...taken, [name]: true });
+    //     } else {
+    //       setTaken({ ...taken, [name]: false });
+    //     }
+    //     if (element.emailid === check.emailid) {
+    //       setTaken({ ...taken, [name]: true });
+    //     } else {
+    //       setTaken({ ...taken, [name]: false });
+    //     }
+    //   });
+    // }
     setCreateForm({
       ...createForm,
       [name]: value,
@@ -160,7 +161,18 @@ const SignUp = () => {
   //Creating a profile
   const createProfile = async (e) => {
     e.preventDefault();
-    const key = document.getElementById("key");
+    const doctor = document.getElementById("doctor");
+    if (doctor.checked) {
+      setCreateForm({
+        ...createForm,
+        category: "nurse",
+      });
+    } else {
+      setCreateForm({
+        ...createForm,
+        category: "doctor",
+      });
+    }
     control1.start({
       scale: [0, 15],
       transition: {
@@ -173,47 +185,45 @@ const SignUp = () => {
       setIsLoading(true);
     }, 300);
 
-    if (key.value === "abcd") {
-      try {
-        const { data } = await axios.post(baseurl + "/signup", createForm, {
-          withCredentials: true,
-        });
-        console.log(data);
-        const { success, message, token } = data;
-        setTimeout(() => {
-          setIsLoading(false);
-          if (success) {
-            console.log(message);
-            setCookies("token", token, { path: "/MedicalRecords" });
-            setAlert(true);
-            setTimeout(() => {
-              navigate(`/dashboard`);
-            }, 500);
-            setProfiles([...profiles, data.profile]);
-          } else {
-            control1.start({
-              scale: [15, 0],
-              transition: {
-                times: [0, 1],
-                ease: "easeInOut",
-                duration: 0.4,
-              },
-            });
-            console.log(message);
-          }
-        }, 2000);
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      const { data } = await axios.post(baseurl + "/signup", createForm, {
+        // withCredentials: true,
+      });
+      console.log(data);
+      const { success, message, token } = data;
+      setTimeout(() => {
+        setIsLoading(false);
+        if (success) {
+          console.log(message);
+          setCookies("token", token, { path: "/MedicalRecords" });
+          setAlert(true);
+          setTimeout(() => {
+            navigate(`/dashboard`);
+          }, 500);
+        } else {
+          control1.start({
+            scale: [15, 0],
+            transition: {
+              times: [0, 1],
+              ease: "easeInOut",
+              duration: 0.4,
+            },
+          });
+          console.log(message);
+        }
+      }, 2000);
+    } catch (error) {
+      console.log(error);
     }
-    setCreateForm({
-      firstname: "",
-      lastname: "",
-      username: "",
-      mobno: "",
-      emailid: "",
-      password: "",
-    });
+
+    // setCreateForm({
+    //   firstname: "",
+    //   lastname: "",
+    //   username: "",
+    //   mobno: "",
+    //   emailid: "",
+    //   password: "",
+    // });
   };
 
   return (
@@ -257,7 +267,9 @@ const SignUp = () => {
             )}
             <div className={`${styles.row}`}>
               <div className={`${styles.inputdiv}`}>
-                <label htmlFor="firstname">Firstname </label>
+                <label className={`${styles.lbl}`} htmlFor="firstname">
+                  Firstname{" "}
+                </label>
                 <input
                   className={styles.inputs}
                   type="text"
@@ -271,7 +283,9 @@ const SignUp = () => {
                 />
               </div>
               <div className={`${styles.inputdiv}`}>
-                <label htmlFor="lastname">Lastname</label>
+                <label className={`${styles.lbl}`} htmlFor="lastname">
+                  Lastname
+                </label>
                 <input
                   className={styles.inputs}
                   type="text"
@@ -288,9 +302,9 @@ const SignUp = () => {
 
             <div className={`${styles.row}`}>
               <div className={`${styles.inputdiv}`}>
-                <label htmlFor="username">
+                <label className={`${styles.lbl}`} htmlFor="username">
                   Username
-                  {taken.username && <span>&nbsp; (Already Taken)</span>}
+                  {/* {taken.username && <span>&nbsp; (Already Taken)</span>} */}
                 </label>
                 <input
                   className={styles.inputs}
@@ -305,7 +319,9 @@ const SignUp = () => {
                 />
               </div>
               <div className={`${styles.inputdiv}`}>
-                <label htmlFor="mobno">Mobile No </label>
+                <label className={`${styles.lbl}`} htmlFor="mobno">
+                  Mobile No{" "}
+                </label>
                 <input
                   className={styles.inputs}
                   type="text"
@@ -321,7 +337,9 @@ const SignUp = () => {
             </div>
             <div className={`${styles.row}`}>
               <div className={`${styles.inputdiv}`}>
-                <label htmlFor="emailid">Email-Id</label>
+                <label className={`${styles.lbl}`} htmlFor="emailid">
+                  Email-Id
+                </label>
                 <input
                   className={`${styles.inputs}`}
                   type="email"
@@ -338,7 +356,9 @@ const SignUp = () => {
 
             <div className={`${styles.row}`}>
               <div className={`${styles.inputdiv}`}>
-                <label htmlFor="password">Password</label>
+                <label className={`${styles.lbl}`} htmlFor="password">
+                  Password
+                </label>
                 <input
                   className={`${styles.inputs}`}
                   onChange={updateCreateFormField}
@@ -362,7 +382,7 @@ const SignUp = () => {
                   onClick={dropdownHandler}
                   className={`${styles.choice}`}
                 />
-                <label htmlFor="doctor">
+                <label className={`${styles.lbl}`} htmlFor="doctor">
                   <img src={doctor} alt="doc.jpg" />
                   <span className={`${styles.covercheckbox}`}>
                     <svg viewBox="0 0 12 10">
@@ -380,7 +400,7 @@ const SignUp = () => {
                   onClick={dropdownHandler}
                   className={`${styles.choice}`}
                 />
-                <label htmlFor="nurse">
+                <label className={`${styles.lbl}`} htmlFor="nurse">
                   <img src={nurse} alt="nurse.jpg" />
                   <span className={`${styles.covercheckbox}`}>
                     <svg viewBox="0 0 12 10">
@@ -398,11 +418,16 @@ const SignUp = () => {
               transition={{ duration: 0.2 }}
               className={`${styles.inputdiv}`}
             >
-              <label htmlFor="key">Passkey</label>
+              <label className={`${styles.lbl}`} htmlFor="passkey">
+                Passkey
+              </label>
               <input
-                id="key"
+                name="passkey"
+                id="passkey"
                 type="text"
                 required
+                onChange={updateCreateFormField}
+                value={createForm.passkey}
                 className={`${styles.inputs}`}
                 autoComplete="off"
               />
@@ -410,7 +435,11 @@ const SignUp = () => {
 
             <div className={`${styles.signup}`}>
               <div>
-                <label htmlFor="terms" style={{ fontWeight: "normal" }}>
+                <label
+                  className={`${styles.lbl}`}
+                  htmlFor="terms"
+                  style={{ fontWeight: "normal" }}
+                >
                   <input id="terms" type="checkbox" className="" required />
                   &nbsp; I accept the&nbsp;
                   <a href="/terms">terms & conditions</a>

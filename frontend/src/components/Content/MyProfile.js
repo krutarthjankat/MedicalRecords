@@ -26,7 +26,7 @@ function MyProfile() {
       <div className={`${styles.profileinfo} rounded`}>
         <div className="panel">
           <div className={`${styles.biographinfo}`}>
-            <h1>My Profile</h1>
+            <h1 className={`font-weight-bold`}>My Profile</h1>
             <div className="row">
               <div
                 className={`${styles.biorow} d-flex justify-content-start align-item-top`}

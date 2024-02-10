@@ -6,6 +6,32 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { baseurl } from "../App";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend,
+  ArcElement,
+} from "chart.js";
+import { Line, Bar, Doughnut } from "react-chartjs-2";
+ChartJS.register(
+  ArcElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend
+);
 
 function HomePage({ prop }) {
   const [open, setOpen] = useState(true);
@@ -13,18 +39,17 @@ function HomePage({ prop }) {
   const control1 = useAnimationControls();
   const [cookies, , removeCookie] = useCookies("token");
   const nav = useNavigate();
-
   useEffect(() => {
     const verifyCookie = async () => {
       if (!cookies.token) {
         return nav("/login");
       }
       const { data } = await axios.post(
-        baseurl+"/",
-        {token:cookies.token},
-        { withCredentials: true }
+        baseurl + "/",
+        { token: cookies.token }
+        // { withCredentials: true }
       );
-      console.log(data);
+      // console.log(data);
       const { status } = data;
       return status
         ? {}
@@ -36,14 +61,14 @@ function HomePage({ prop }) {
   const toggleOpen = () => {
     console.log(open);
     control.start({
-      width: !open ? "20vw" : "5vw",
+      width: !open ? "21vw" : "5vw",
       transition: {
         duration: 0.3,
         ease: "easeInOut",
       },
     });
     control1.start({
-      width: !open ? "74vw" : "89vw",
+      width: !open ? "76vw" : "92vw",
       transition: {
         duration: 0.3,
         ease: "easeInOut",
@@ -62,7 +87,8 @@ function HomePage({ prop }) {
     { name: "Dashboard", class: "fa-solid fa-chart-line" },
     { name: "Patients", class: "fa-solid fa-bed" },
     { name: "Settings", class: "fa-solid fa-gear" },
-    // { name: "MyProfile", class: "fa-regular fa-id-badge" },
+    { name: "Staff Duty Chart", class: "fas fa-tasks" },
+    { name: "SOPs", class: "fa-solid fa-bed-pulse" },
     { name: "About", class: "fa-solid fa-circle-info" },
   ];
 
@@ -96,8 +122,14 @@ function HomePage({ prop }) {
                   nav(`/${item.name}`);
                 }}
               >
-                {open && <span>{item.name}</span>}
-                <span className={`${item.class}`}></span>
+                {open && <p className={`${styles.txt}`}>{item.name}</p>}
+                <p
+                  className={`${item.class} ${styles.pic} ${
+                    open
+                      ? "justify-content-end"
+                      : "justify-content-center w-full"
+                  }`}
+                ></p>
               </button>
             </div>
           ))}
@@ -124,7 +156,7 @@ function HomePage({ prop }) {
               id="dropdown-button"
               variant="secondary"
             >
-              <span className={`fa-regular fa-id-badge`}></span>
+              <span className={`fa fa-user`}></span>
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -137,7 +169,7 @@ function HomePage({ prop }) {
                   nav(`../myprofile`);
                 }}
               >
-                <i className="fa fa-user"></i> My Profile
+                <i className="fa-regular fa-id-badge"></i> My Profile
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {

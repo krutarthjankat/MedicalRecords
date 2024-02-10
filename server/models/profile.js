@@ -8,6 +8,7 @@ const profileSchema = new mongoose.Schema({
   mobno: String,
   emailid: String,
   password: String,
+  category: String,
 });
 
 profileSchema.pre("save", async function () {

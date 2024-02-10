@@ -1,48 +1,80 @@
+const Patient = require("../models/patient.js");
 const Profile = require("../models/profile.js");
+const Vital = require("../models/vital.js");
 const { createSecretToken } = require("../util/SecretToken.js");
 const bcrypt = require("bcryptjs");
 
-const fetchProfiles = async (req, res) => {
-  // Find the profiles
-  const profiles = await Profile.find();
-
-  // Respond with them
-  res.json({ profiles });
+const fetchData = async (req, res) => {
+    const vital = await Vital.find();
+    return res.json({ vital });
+};
+const fetchProfile = async (req, res, next) => {
+  try {
+    const { patientid } = req.body;
+    console.log(patientid);
+    const user = await Vital.findOne({ patientid });
+    console.log(user);
+    res.json({
+     user
+    });
+    next();
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const createProfile = async (req, res, next) => {
   try {
-    const { firstname, lastname, username, mobno, emailid, password } =
-      req.body;
-    const existingUser = await Profile.findOne({ emailid });
-    if (existingUser) {
-      return res.json({ message: "User already exists" });
-    }
-    const user = await Profile.create({
+    const {
       firstname,
       lastname,
       username,
       mobno,
       emailid,
       password,
-    });
-    console.log(user._id);
-    const token = createSecretToken(JSON.stringify(user._id));
-    // console.log(token);
-    // res.cookie("token", token, {
-    //   domain: "krutarthjankat.github.io",
-    //   path: "/MedicalRecords",
-    //   secure: true,
-    //   sameSite: "none",
-    //   withCredentials: true,
-    //   httpOnly: false,
-    // });
-    res.status(201).json({
-      message: "User signed up successfully",
-      success: true,
-      user: user,
-      token:token
-    });
+      category,
+      passkey,
+    } = req.body;
+    const existingUser = await Profile.findOne({ emailid });
+    if (existingUser) {
+      return res.json({ message: "User already exists" });
+    }
+    if (
+      (category === "doctor" && passkey === "abcd") ||
+      (category === "nurse" && passkey === "efgh")
+    ) {
+      const user = await Profile.create({
+        firstname,
+        lastname,
+        username,
+        mobno,
+        emailid,
+        password,
+        category,
+      });
+
+      const token = createSecretToken(JSON.stringify(user._id));
+      // console.log(token);
+      // res.cookie("token", token, {
+      //   domain: "krutarthjankat.github.io",
+      //   path: "/MedicalRecords",
+      //   secure: true,
+      //   sameSite: "none",
+      //   withCredentials: true,
+      //   httpOnly: false,
+      // });
+      res.status(201).json({
+        message: "User signed up successfully",
+        success: true,
+        user: user,
+        token: token,
+      });
+    } else {
+      res.status(201).json({
+        message: "Invalid Passkey",
+        success: false,
+      });
+    }
     next();
   } catch (error) {
     console.error(error);
@@ -99,18 +131,11 @@ const checkProfile = async (req, res, next) => {
       return res.json({ message: "Incorrect password or email" });
     }
     const token = createSecretToken(user._id);
-    // console.log(token);
-    // res.cookie("token", token, {
-    //   domain: "krutarthjankat.github.io",
-    //   path: "/",
-    //   secure: true,
-    //   sameSite: "none",
-    // });
     res.status(201).json({
       message: "User logged in successfully",
       success: true,
       id: user._id,
-      token:token
+      token: token,
     });
     next();
   } catch (error) {
@@ -119,7 +144,8 @@ const checkProfile = async (req, res, next) => {
 };
 
 module.exports = {
-  fetchProfiles,
+  fetchData,
+  fetchProfile,
   createProfile,
   updateProfile,
   deleteProfile,

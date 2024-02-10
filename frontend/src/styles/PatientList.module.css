@@ -1,3 +1,12 @@
+.option{
+
+}
+.addpt{
+  background-color: transparent;
+  color: #fff;
+  border: none;
+}
+
 .more {
   opacity: 0.5 !important;
 }
@@ -11,7 +20,7 @@
 
 .maindiv {
   border-radius: 10px ;
-  height:200px;
+  height:170px;
   transition: height 500ms;
 }
 
@@ -27,10 +36,22 @@ img {
 
 .btn:focus,
 .btn:active {
-  outline: none !important;
-  box-shadow: none !important;
+
+  /* outline: none !important; */
+  /* box-shadow: none !important; */
 }
 
 .isactive{
-    height:400px;
+    height:500px;
+}
+
+.hide{
+  height:0px;
+  overflow: hidden;
+  /* display: none; */
+}
+.graph{
+  width:50%;
+  display: flex;
+  flex-wrap: wrap;
 }

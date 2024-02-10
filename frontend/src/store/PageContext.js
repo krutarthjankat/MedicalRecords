@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 const PageContext = React.createContext();
-const UserData = React.createContext();
+const PatientData = React.createContext();
 
 export const usePageContext = () => {
   return useContext(PageContext);
@@ -19,18 +19,16 @@ export const PageContextProvider = ({ children }) => {
   );
 };
 
-export const useUserData = () => {
-  return useContext(UserData);
+export const usePatientData = () => {
+  return useContext(PatientData);
 };
 
-export const UserDataProvider = ({ children }) => {
-  const [userId, setUserId] = useState("abcd");
+export const PatientDataProvider = ({ children }) => {
+  const [patientId, setPatientId] = useState("abcd");
 
   return (
-    <UserData.Provider
-      value={{ userId, setUserId}}
-    >
+    <PatientData.Provider value={{ patientId, setPatientId }}>
       {children}
-    </UserData.Provider>
+    </PatientData.Provider>
   );
 };

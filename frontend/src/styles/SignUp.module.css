@@ -38,13 +38,13 @@
 }
 
 .loaderdemobox {
-     width: 100%;
-     height: 200px
- }
+  width: 100%;
+  height: 200px;
+}
 
- .jumpingdotsloader {
+.jumpingdotsloader {
   position: fixed;
-  top:45%;
+  top: 45%;
   left: 40%;
   width: 100px;
   height: 100px;
@@ -67,18 +67,21 @@
 }
 
 .jumpingdotsloader span:nth-child(2) {
-  animation: bounce 1.5s ease-in-out 0.20s infinite;
+  animation: bounce 1.5s ease-in-out 0.2s infinite;
 }
 
 .jumpingdotsloader span:nth-child(3) {
   animation: bounce 1.5s ease-in-out 0.35s infinite;
 }
 .jumpingdotsloader span:nth-child(4) {
-  animation: bounce 1.5s ease-in-out 0.50s infinite;
+  animation: bounce 1.5s ease-in-out 0.5s infinite;
 }
 
 @keyframes bounce {
-  0%, 50%, 75%, 100% {
+  0%,
+  50%,
+  75%,
+  100% {
     -webkit-transform: translateY(0);
     -ms-transform: translateY(0);
     -o-transform: translateY(0);
@@ -90,7 +93,7 @@
     -o-transform: translateY(-20px);
     transform: translateY(-20px);
   }
-} 
+}
 
 .alert {
   position: absolute;
@@ -109,10 +112,12 @@ label > span {
   font-size: 80%;
   color: red;
 }
-h1 {
-  font-size: 3em !important;
-  font-family: Poppins !important;
-  font-weight: bold !important;
+.form {
+  &h1 {
+    font-size: 3em !important;
+    font-family: Poppins !important;
+    font-weight: bold !important;
+  }
 }
 
 .animate {
@@ -136,7 +141,7 @@ h1 {
   margin: 8px 0;
 }
 
-label {
+.lbl {
   font-weight: bold;
   font-size: 90%;
   margin-bottom: 1%;
@@ -205,7 +210,7 @@ label {
 }
 
 .choicediv input:checked + label img {
-  -webkit-filter: none; 
+  -webkit-filter: none;
   filter: none;
 }
 
@@ -431,7 +436,7 @@ a {
     height: 60%;
     object-position: 0% 0%;
     margin: 5% 0 0 35.7%;
-    -webkit-filter: grayscale(100%); 
+    -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
   }
   .signup {
@@ -483,7 +488,7 @@ a {
   .inputdiv {
     width: 100%;
     height: 1%;
-    margin-bottom:0.25em;
+    margin-bottom: 0.25em;
   }
   .inputs {
     font-size: 50%;
@@ -512,7 +517,7 @@ a {
 
   .contcheckbox {
     width: 50%;
-    height:40px;
+    height: 40px;
     border-radius: 10%;
     border: 1px solid black;
     box-shadow: 0 0 0.3rem 0.1rem rgba(0, 0, 0, 0.363);
@@ -533,8 +538,8 @@ a {
     font-size: 55%;
   }
 
-  .choice{
-    height:100%;
+  .choice {
+    height: 100%;
     width: 100%;
   }
 
@@ -543,25 +548,25 @@ a {
   }
 
   .btnthree {
-  font-size: 12px;
-  height: 25px;
-  line-height: 10px;
-  transition: all 0.5s;
-  position: relative;
-  background-color: white;
-  color: black;
-  text-align: center;
-  & label {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    transition: all 0.3s;
+    font-size: 12px;
+    height: 25px;
+    line-height: 10px;
+    transition: all 0.5s;
+    position: relative;
+    background-color: white;
+    color: black;
+    text-align: center;
+    & label {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      transition: all 0.3s;
+    }
   }
-}
   .links {
     margin: 2px 0px 0 0;
     display: flex;

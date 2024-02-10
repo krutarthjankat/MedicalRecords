@@ -23,10 +23,8 @@ function Login() {
   const control = useAnimationControls();
   const control1 = useAnimationControls();
   const [isLoading, setIsLoading] = useState(false);
-  console.log(cookies.token);
   useEffect(() => {
     // fetchProfiles();
-    console.log(cookies);
     if (pgRef.current.clientWidth < 370) {
       setDimSignUp({ height: 280, width: 200 });
     } else if (pgRef.current.clientWidth < 500) {
@@ -45,7 +43,6 @@ function Login() {
   //Getting page widths for smooth transitions
   useEffect(() => {
     if (LoginRef.current) {
-      console.log(LoginRef.current.clientWidth);
       setDimLogin({
         height: LoginRef.current.clientHeight,
         width: LoginRef.current.clientWidth,
@@ -135,10 +132,12 @@ function Login() {
     }, 200);
 
     try {
-      const { data } = await axios.post(baseurl + "/login", form, {
-        credentials: "include",
-        withCredentials: true,
-      });
+      const { data } = await axios.post(baseurl + "/login", form, 
+      // {
+      //   credentials: "include",
+      //   withCredentials: true,
+      // }
+      );
       console.log(data);
       const { success, message, token } = data;
 
