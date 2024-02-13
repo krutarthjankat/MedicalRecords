@@ -64,6 +64,8 @@ export const data = {
 };
 
 function PatientList() {
+
+  const [isLoading, setLoading] = useState(true);
   const [id, setId] = useCookies("patientId");
   const navigate = useNavigate();
 
@@ -93,6 +95,7 @@ function PatientList() {
     const res = await axios.get(baseurl + "/data", { data: { type: "vital" } });
     console.log(res.data.vital);
     setVital(res.data.vital);
+    setLoading(false);
   };
 
   const toggleExpand = (e) => {
@@ -147,6 +150,23 @@ function PatientList() {
       const res = await axios.post(baseurl + "/addvital", newvital);
       console.log(res.data);
   };
+
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+        }}
+      >
+        Loading the data {console.log("loading state")}
+      </div>
+    );
+  }
+
 
   return (
     <div>

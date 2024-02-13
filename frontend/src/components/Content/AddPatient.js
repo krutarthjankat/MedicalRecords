@@ -167,7 +167,7 @@ function AddPatient() {
                   onChange={updateCreateFormField}
                 />
               </div>
-              <div className="col-md-12">
+              <div className="col-md-6">
                 <label className="labels">Relative Mobile No</label>
                 <input
                   type="text"
@@ -177,6 +177,18 @@ function AddPatient() {
                   name="relmobno"
                   id="relmobno"
                   onChange={updateCreateFormField}
+                />
+              </div>
+              <div className="col-md-6">
+                <label className="labels">Incharge Doctor</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder=""
+                  value={vital.drincharge}
+                  name="drincharge"
+                  id="drincharge"
+                  onChange={updateVitalField}
                 />
               </div>
               <div className="col-md-6">
@@ -203,18 +215,7 @@ function AddPatient() {
                   onChange={updateCreateFormField}
                 />
               </div>
-              <div className="col-md-12">
-                <label className="labels">Incharge Doctor</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder=""
-                  value={vital.drincharge}
-                  name="drincharge"
-                  id="drincharge"
-                  onChange={updateVitalField}
-                />
-              </div>
+
               <div className="col-md-12">
                 <label className="labels">Precautions</label>
                 <input
@@ -270,9 +271,9 @@ function AddPatient() {
         <div className="col-md-6">
           <div className="p-1 py-3">
             <div className="d-flex justify-content-between align-items-center ">
-              <h4 className="text-right">History</h4>
+              <h4 className="text-right mb-1">History</h4>
             </div>
-            <div className="row mt-1">
+            <div className="row">
               <div className="col-md-12">
                 <label className="labels">Presenting Complaint</label>
                 <textarea
