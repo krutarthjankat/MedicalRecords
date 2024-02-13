@@ -5,17 +5,18 @@ const { createSecretToken } = require("../util/SecretToken.js");
 const bcrypt = require("bcryptjs");
 
 const fetchData = async (req, res) => {
-    const vital = await Vital.find();
-    return res.json({ vital });
+  const vital = await Vital.find();
+  return res.json({ vital });
 };
+
 const fetchProfile = async (req, res, next) => {
   try {
-    const { patientid } = req.body;
-    console.log(patientid);
-    const user = await Vital.findOne({ patientid });
-    console.log(user);
+    const {patientid}=req.body;
+    const vital = await Vital.findOne({ patientid });
+    const user = await Patient.findOne({ patientid });
     res.json({
-     user
+      user,
+      vital,
     });
     next();
   } catch (error) {
@@ -75,6 +76,109 @@ const createProfile = async (req, res, next) => {
         success: false,
       });
     }
+    next();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const createPatientProfile = async (req, res, next) => {
+  try {
+    const {
+      patientid,
+      patientname,
+      dateofadm,
+      age,
+      relmobno,
+      sex,
+      address,
+      room,
+      occupation,
+      isolation,
+      precautions,
+      allergies,
+      admdiagnosis,
+      docuavail,
+      history,
+    } = req.body;
+    const existingUser = await Patient.findOne({ patientid });
+    if (existingUser) {
+      return res.json({ message: "Patient already exists" });
+    }
+    await Patient.create({
+      patientid,
+      patientname,
+      dateofadm,
+      age,
+      relmobno,
+      sex,
+      address,
+      room,
+      occupation,
+      isolation,
+      precautions,
+      allergies,
+      admdiagnosis,
+      docuavail,
+      history,
+    });
+
+    res.status(201).json({
+      message: "Patient created successfully",
+      success: true,
+    });
+    next();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const addPatientVital = async (req, res, next) => {
+  try {
+    const {
+      patientid,
+      patientname,
+      drincharge,
+      nurseupdate,
+      update,
+      temp,
+      heartrate,
+      resprate,
+      oxysat,
+      sysbp,
+      dibp,
+    } = req.body;
+    const existingUser = await Vital.findOne({ patientid });
+    if (existingUser) {
+      existingUser.update.push(update);
+      existingUser.nurseupdate.push(nurseupdate);
+      existingUser.temp.push(temp);
+      existingUser.heartrate.push(heartrate);
+      existingUser.resprate.push(resprate);
+      existingUser.oxysat.push(oxysat);
+      existingUser.sysbp.push(sysbp);
+      existingUser.dibp.push(dibp);
+      await existingUser.save();
+      return res.json({ message: "Added vitals to existing user" });
+    }
+    await Vital.create({
+      patientid,
+      patientname,
+      drincharge,
+      nurseupdate,
+      update,
+      temp,
+      heartrate,
+      resprate,
+      oxysat,
+      sysbp,
+      dibp,
+    });
+
+    res.status(201).json({
+      message: "Vitals added successfully",
+      success: true,
+    });
     next();
   } catch (error) {
     console.error(error);
@@ -144,6 +248,8 @@ const checkProfile = async (req, res, next) => {
 };
 
 module.exports = {
+  addPatientVital,
+  createPatientProfile,
   fetchData,
   fetchProfile,
   createProfile,

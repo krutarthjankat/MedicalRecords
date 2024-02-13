@@ -449,7 +449,7 @@ const SignUp = () => {
               <div>
                 <button
                   type="submit"
-                  id="login"
+                  id="signup"
                   className={`${styles.signupbtn} ${styles.btnthree} btn mt-1 col-12`}
                 >
                   Create an account

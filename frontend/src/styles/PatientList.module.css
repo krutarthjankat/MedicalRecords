@@ -20,8 +20,8 @@
 
 .maindiv {
   border-radius: 10px ;
-  height:170px;
-  transition: height 500ms;
+  max-height:1000px;
+  transition: max-height 1000ms;
 }
 
 .btn-outlined:active {
@@ -42,14 +42,24 @@ img {
 }
 
 .isactive{
-    height:500px;
+    
+}
+.isactive2{
+   
 }
 
 .hide{
-  height:0px;
-  overflow: hidden;
-  /* display: none; */
+  /* height:0px;
+  overflow: hidden; */
+  max-height: 0px;
+  display:none !important;
 }
+.hide2{
+  /* height:0px;
+  overflow: hidden; */
+  display:none !important;
+}
+
 .graph{
   width:50%;
   display: flex;

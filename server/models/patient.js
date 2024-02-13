@@ -17,7 +17,8 @@ const patientSchema = new mongoose.Schema({
   allergies: String,
   admdiagnosis: String,
   history: [String],
-  docuavail:String
+  docuavail: String,
 });
+
 const Patient = mongoose.model("Patient", patientSchema);
 module.exports = Patient;

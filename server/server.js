@@ -17,7 +17,7 @@ app.use(cookieParser());
 
 connectToDb();
 
-const backendUrl = "https://medicalrecords.onrender.com/profiles";
+const backendUrl = "https://medicalrecords.onrender.com";
 cron.schedule("*/180 * * * * *", function () {
   console.log("Restarting server");
 
@@ -50,6 +50,8 @@ app.use(cors());
 app.use("/", authRoute);
 app.get("/data", profilesController.fetchData);
 app.post("/profile", profilesController.fetchProfile);
+app.post("/addvital",profilesController.addPatientVital);
+app.post("/addpatient", profilesController.createPatientProfile);
 app.put("/profiles/:id", profilesController.updateProfile);
 app.delete("/profiles/:id", profilesController.deleteProfile);
 app.listen(process.env.PORT);

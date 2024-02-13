@@ -12,19 +12,22 @@ import { baseurl } from "../../App";
 function Patient() {
   const [isLoading, setLoading] = useState(true);
   const [vital, setVital] = useState({});
+  
+  const [patient, setPatient] = useState({});
   const [id] = useCookies("patientId");
 
   useEffect(() => {
     fetchProfile();
-  }, []);
+  },[id]);
 
   const fetchProfile = async () => {
     try {
       const res = await axios.post(baseurl + "/profile", {
-        patientid: String(id.patientid),
+        patientid: id.patientid,
       });
-      //   console.log(res.data.user.temp);
-      setVital(res.data.user);
+    console.log(res);
+      setVital(res.data.vital);
+      setPatient(res.data.user);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -166,7 +169,7 @@ function Patient() {
                       <img src={blood_pressure} alt="bp"></img>
                     </div>
                     <div>
-                      <span>{`${vital.sysbp[0]}/${vital.dibp[0]}`+' mm/Hg'}</span>
+                      <span>{`${vital.sysbp[0]}/${vital.dibp[0]} mm/Hg`}</span>
                     </div>
                   </div>
                 </div>
@@ -197,12 +200,12 @@ function Patient() {
                     className={`${styles.circlevital}`}
                     style={{
                       border: `5px solid ${
-                        vital.oxysat[0] > 90
+                        vital.oxysat[0] > 98
                           ? "rgb(28, 210, 28)"
                           : "rgb(179, 11, 11)"
                       }`,
                       boxShadow: `0px 0px 10px 1px ${
-                        vital.oxysat[0] > 90
+                        vital.oxysat[0] > 98
                           ? "rgb(28, 210, 28)"
                           : "rgb(179, 11, 11)"
                       }`,
@@ -212,7 +215,7 @@ function Patient() {
                       <img src={oxysat} alt="oxy"></img>
                     </div>
                     <div>
-                      <span>{`${vital.oxysat[0]}`+'%'}</span>
+                      <span>{`${vital.oxysat[0]}%`}</span>
                     </div>
                   </div>
                 </div>
@@ -235,13 +238,13 @@ function Patient() {
                   </div>
 
                   <div className="col-sm-3 text-secondary">
-                    {vital.patientname}
+                    {patient.patientname}
                   </div>
                   <div className="col-sm-3">
                     <h6 className="mb-0">Date of Admission</h6>
                   </div>
                   <div className="col-sm-3 text-secondary">
-                    {vital.update[0]}
+                    {patient.dateofadm}
                   </div>
                 </div>
                 <hr />
@@ -249,11 +252,11 @@ function Patient() {
                   <div className="col-sm-3">
                     <h6 className="mb-0">Age</h6>
                   </div>
-                  <div className="col-sm-3 text-secondary">45</div>
+                  <div className="col-sm-3 text-secondary">{patient.age}</div>
                   <div className="col-sm-3">
                     <h6 className="mb-0">Sex</h6>
                   </div>
-                  <div className="col-sm-3 text-secondary">Male</div>
+                  <div className="col-sm-3 text-secondary">{patient.sex}</div>
                 </div>
                 <hr />
                 <div className="row">
@@ -261,24 +264,28 @@ function Patient() {
                     <h6 className="mb-0">Address</h6>
                   </div>
                   <div className="col-sm-3 text-secondary">
-                    B-wing, Gokuldham Society
+                    {patient.address}
                   </div>
                   <div className="col-sm-3">
                     <h6 className="mb-0">Relative contact no</h6>
                   </div>
-                  <div className="col-sm-3 text-secondary">(239) 816-9029</div>
+                  <div className="col-sm-3 text-secondary">
+                    {patient.relmobno}
+                  </div>
                 </div>
                 <hr />
                 <div className="row">
                   <div className="col-sm-3">
                     <h6 className="mb-0">Room/Bed no</h6>
                   </div>
-                  <div className="col-sm-3 text-secondary">351</div>
+                  <div className="col-sm-3 text-secondary">{patient.room}</div>
 
                   <div className="col-sm-3">
                     <h6 className="mb-0">Occupation</h6>
                   </div>
-                  <div className="col-sm-3 text-secondary">Businessman</div>
+                  <div className="col-sm-3 text-secondary">
+                    {patient.occupation}
+                  </div>
                 </div>
 
                 <hr />
@@ -292,18 +299,24 @@ function Patient() {
                   <div className="col-sm-3">
                     <h6 className="mb-0">Isolation</h6>
                   </div>
-                  <div className="col-sm-3 text-secondary">No</div>
+                  <div className="col-sm-3 text-secondary">
+                    {patient.isolation}
+                  </div>
                 </div>
                 <hr />
                 <div className="row">
                   <div className="col-sm-3">
                     <h6 className="mb-0">Allergies</h6>
                   </div>
-                  <div className="col-sm-3 text-secondary">-</div>
+                  <div className="col-sm-3 text-secondary">
+                    {patient.allergies}
+                  </div>
                   <div className="col-sm-3">
                     <h6 className="mb-0">Precautions</h6>
                   </div>
-                  <div className="col-sm-3 text-secondary">-</div>
+                  <div className="col-sm-3 text-secondary">
+                    {patient.precautions}
+                  </div>
                 </div>
                 <hr />
                 <div className="row">
@@ -312,12 +325,14 @@ function Patient() {
                       Documented Consent for intensive care
                     </h6>
                   </div>
-                  <div className="col-sm-3 text-secondary">Yes</div>
+                  <div className="col-sm-3 text-secondary">
+                    {patient.docuavail}
+                  </div>
                   <div className="col-sm-3">
                     <h6 className="mb-0">Admission Diagnosis</h6>
                   </div>
                   <div className="col-sm-3 text-secondary">
-                    Suspendisse turpis ante, pharetra vel lacus vitae.
+                    {patient.admdiagnosis}
                   </div>
                 </div>
                 <hr />
@@ -333,9 +348,7 @@ function Patient() {
                     <h6 className="mb-0">Presenting Complaint</h6>
                   </div>
                   <div className="col-sm-9 text-secondary">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Quisque ac metus condimentum, fermentum nisl lobortis,
-                    placerat urna.
+                    {patient.history[0]}
                   </div>
                 </div>
                 <hr />
@@ -344,9 +357,7 @@ function Patient() {
                     <h6 className="mb-0">History of Presenting Complaint</h6>
                   </div>
                   <div className="col-sm-9 text-secondary">
-                    Suspendisse iaculis ligula at dui volutpat aliquam. Sed
-                    efficitur ipsum id tincidunt volutpat. Aliquam faucibus
-                    feugiat libero tempus porttitor.
+                    {patient.history[1]}
                   </div>
                 </div>
                 <hr />
@@ -355,9 +366,7 @@ function Patient() {
                     <h6 className="mb-0">Past Medical History</h6>
                   </div>
                   <div className="col-sm-9 text-secondary">
-                    Sed vitae scelerisque quam, et vestibulum ante. Suspendisse
-                    hendrerit, ligula in fringilla consectetur, lectus dui
-                    mattis urna, et cursus nibh metus a dolor.
+                    {patient.history[2]}
                   </div>
                 </div>
                 <hr />
@@ -366,8 +375,7 @@ function Patient() {
                     <h6 className="mb-0">Drug History</h6>
                   </div>
                   <div className="col-sm-9 text-secondary">
-                    Praesent vitae eros nec felis pulvinar tincidunt. Donec
-                    commodo pulvinar odio quis varius. Fusce ut ex risus.
+                    {patient.history[3]}
                   </div>
                 </div>
                 <hr />
@@ -376,8 +384,7 @@ function Patient() {
                     <h6 className="mb-0">Family History</h6>
                   </div>
                   <div className="col-sm-9 text-secondary">
-                    Donec bibendum pharetra nunc eu dictum. Phasellus ut nulla
-                    id augue tincidunt bibendum. Aenean eu mattis sapien.
+                    {patient.history[4]}
                   </div>
                 </div>
                 <hr />
@@ -386,8 +393,7 @@ function Patient() {
                     <h6 className="mb-0">Social History</h6>
                   </div>
                   <div className="col-sm-9 text-secondary">
-                    Donec blandit non ipsum vitae fringilla. In vel augue eget
-                    libero rhoncus consequat iaculis eu purus.
+                    {patient.history[5]}
                   </div>
                 </div>
                 {/* <hr />

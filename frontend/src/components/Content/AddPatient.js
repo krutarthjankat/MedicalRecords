@@ -1,38 +1,107 @@
 // import styles from "../../styles/Patient.module.css";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { baseurl } from "../../App";
+import { useCookies } from "react-cookie";
 
 function AddPatient() {
-  const navigate = useNavigate();
+
+   const [cookies] = useCookies("token");
   const [createForm, setCreateForm] = useState({
-    patientid:"",
+    patientid: 1,
     patientname: "",
     dateofadm: "",
     age: "",
     relmobno: "",
     sex: "",
+    address: "",
     room: "",
     occupation: "",
     isolation: "",
-    precautions:"",
-    allergies:"",
-    admdiagnosis:"",
-    docuavail:"",
-    history:[],
+    precautions: "",
+    allergies: "",
+    admdiagnosis: "",
+    docuavail: "",
+    history: [],
+  });
+  const [vital, setVital] = useState({
+    patientid: 1,
+    patientname: "",
+    drincharge: "",
+    nurseupdate: [],
+    update: [],
+    temp: [],
+    heartrate: [],
+    resprate: [],
+    oxysat: [],
+    sysbp: [],
+    dibp: [],
   });
 
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  const updateCreateFormField = (e) => {
+  const fetchData = async () => {
+    const res = await axios.get(baseurl + "/data", { data: { type: "vital" } });
+    console.log(res);
+  };
+
+  const updateVitalField = (e) => {
     const { name, value } = e.target;
-    setCreateForm({
-      ...createForm,
+    setVital({
+      ...vital,
       [name]: value,
     });
+  };
+  const updateCreateFormField = (e) => {
+    const { name, value } = e.target;
+    console.log(parseInt(name));
+    
+    if (!parseInt(name)) {
+      setCreateForm({
+        ...createForm,
+        [name]: value,
+      });
+      if (name === "dateofadm") {
+        setVital({
+          ...vital,
+          patientid:
+            new Date(createForm.dateofadm).getTime() + new Date().getSeconds(),
+        });
+      }
+      console.log(createForm);
+      return;
+    }
+    createForm.history[(name * 1)-1] = value;
+    setCreateForm(createForm);
+  };
+
+  const createPatientProfile = async (e) => {
+    e.preventDefault();
+    vital.update.push(new Date());
+    vital.patientname=createForm.patientname;
+    createForm.patientid=vital.patientid;
+    // setVital(vital);
+    console.log(vital.patientname);
+    try {
+      const { data } = await axios.post(
+        baseurl + "/",
+        { token: cookies.token }
+      );
+      vital.nurseupdate=data.user;
+      vital.update=new Date();
+      const res = await axios.post(baseurl + "/addvital", vital);
+      const res1 = await axios.post(baseurl + "/addpatient", createForm);
+      console.log(res.data,res1.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="container rounded bg-white">
-      <div className="row">
+      <form onSubmit={createPatientProfile} className="row">
         <div className="col-md-6 border-right">
           <div className="p-1 py-3">
             <div className="d-flex justify-content-between align-items-center">
@@ -45,19 +114,21 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
+                  value={createForm.patientname}
                   name="patientname"
+                  onChange={updateCreateFormField}
                 />
               </div>
               <div className="col-md-12">
                 <label className="labels">Date Of Admission</label>
                 <input
-                  type="text"
+                  type="datetime-local"
                   className="form-control"
                   placeholder="eg: 2022-02-05"
-                  value=""
+                  value={createForm.dateofadm}
                   name="dateofadm"
                   id="dateofadm"
+                  onChange={updateCreateFormField}
                 />
               </div>
               <div className="col-md-6">
@@ -66,9 +137,10 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
+                  value={createForm.age}
                   name="age"
                   id="age"
+                  onChange={updateCreateFormField}
                 />
               </div>
               <div className="col-md-6">
@@ -77,9 +149,10 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
+                  value={createForm.sex}
                   name="sex"
                   id="sex"
+                  onChange={updateCreateFormField}
                 />
               </div>
               <div className="col-md-12">
@@ -88,9 +161,10 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
+                  value={createForm.address}
                   name="address"
                   id="address"
+                  onChange={updateCreateFormField}
                 />
               </div>
               <div className="col-md-12">
@@ -99,9 +173,10 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
+                  value={createForm.relmobno}
                   name="relmobno"
                   id="relmobno"
+                  onChange={updateCreateFormField}
                 />
               </div>
               <div className="col-md-6">
@@ -110,9 +185,10 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
+                  value={createForm.room}
                   name="room"
                   id="room"
+                  onChange={updateCreateFormField}
                 />
               </div>
               <div className="col-md-6">
@@ -121,9 +197,10 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
+                  value={createForm.occupation}
                   name="occupation"
                   id="occupation"
+                  onChange={updateCreateFormField}
                 />
               </div>
               <div className="col-md-12">
@@ -132,9 +209,10 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
-                  name="drincarge"
+                  value={vital.drincharge}
+                  name="drincharge"
                   id="drincharge"
+                  onChange={updateVitalField}
                 />
               </div>
               <div className="col-md-12">
@@ -143,9 +221,10 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder="eg: HPV/HIV"
-                  value=""
+                  value={createForm.precautions}
                   name="precautions"
                   id="precautions"
+                  onChange={updateCreateFormField}
                 />
               </div>
               <div className="col-md-12">
@@ -154,9 +233,10 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder="eg: Penicillin Allergy"
-                  value=""
+                  value={createForm.allergies}
                   name="allergies"
                   id="allergies"
+                  onChange={updateCreateFormField}
                 />
               </div>
 
@@ -166,9 +246,10 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder="eg: Yes(Corona)"
-                  value=""
+                  value={createForm.isolation}
                   name="isolation"
                   id="isolation"
+                  onChange={updateCreateFormField}
                 />
               </div>
               <div className="col-md-6">
@@ -176,10 +257,11 @@ function AddPatient() {
                 <input
                   type="text"
                   className="form-control"
-                  value=""
+                  value={createForm.docuavail}
                   placeholder="Yes/No"
                   name="docuavail"
                   id="docuavail"
+                  onChange={updateCreateFormField}
                 />
               </div>
             </div>
@@ -197,36 +279,44 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder="eg: Right side paralysis since 3hrs"
-                  value=""
+                  value={createForm.history[0]}
+                  name="1"
+                  onChange={updateCreateFormField}
                 />
               </div>
               <div className="col-md-12">
                 <label className="labels">
                   History of Presenting Complaint
                 </label>
-                <textarea
+                <input
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
+                  value={createForm.history[1]}
+                  name="2"
+                  onChange={updateCreateFormField}
                 />
               </div>
-              <div className="col-md-12">
+              <div className="col-md-6">
                 <label className="labels">Past Medical History</label>
                 <textarea
                   type="text"
                   className="form-control"
                   placeholder="eg: Diagnosed Diabetic 10yrs back"
-                  value=""
+                  value={createForm.history[2]}
+                  name="3"
+                  onChange={updateCreateFormField}
                 />
               </div>
-              <div className="col-md-12">
+              <div className="col-md-6">
                 <label className="labels">Drug History</label>
-                <input
+                <textarea
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
+                  value={createForm.history[3]}
+                  name="4"
+                  onChange={updateCreateFormField}
                 />
               </div>
               <div className="col-md-12">
@@ -235,7 +325,9 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
+                  value={createForm.history[4]}
+                  name="5"
+                  onChange={updateCreateFormField}
                 />
               </div>
               <div className="col-md-12">
@@ -244,7 +336,20 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder="eg: alcohol addiction"
-                  value=""
+                  value={createForm.history[5]}
+                  name="6"
+                  onChange={updateCreateFormField}
+                />
+              </div>
+              <div className="col-md-12">
+                <label className="labels">Admission Diagnosis</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder=""
+                  value={createForm.admdiagnosis}
+                  name="admdiagnosis"
+                  onChange={updateCreateFormField}
                 />
               </div>
 
@@ -257,7 +362,10 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
+                  value={vital.temp}
+                  name="temp"
+                  id="temp"
+                  onChange={updateVitalField}
                 />
               </div>
               <div className="col-md-4">
@@ -265,8 +373,11 @@ function AddPatient() {
                 <input
                   type="text"
                   className="form-control"
-                  value=""
+                  value={vital.heartrate}
                   placeholder=""
+                  name="heartrate"
+                  id="heartrate"
+                  onChange={updateVitalField}
                 />
               </div>
               <div className="col-md-4">
@@ -275,7 +386,10 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
+                  value={vital.sysbp}
+                  name="sysbp"
+                  id="sysbp"
+                  onChange={updateVitalField}
                 />
               </div>
               <div className="col-md-4">
@@ -284,7 +398,10 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
+                  value={vital.dibp}
+                  name="dibp"
+                  id="dibp"
+                  onChange={updateVitalField}
                 />
               </div>
               <div className="col-md-4">
@@ -292,8 +409,11 @@ function AddPatient() {
                 <input
                   type="text"
                   className="form-control"
-                  value=""
+                  value={vital.resprate}
                   placeholder=""
+                  name="resprate"
+                  id="resprate"
+                  onChange={updateVitalField}
                 />
               </div>
               <div className="col-md-4">
@@ -302,18 +422,21 @@ function AddPatient() {
                   type="text"
                   className="form-control"
                   placeholder=""
-                  value=""
+                  value={vital.oxysat}
+                  name="oxysat"
+                  id="oxysat"
+                  onChange={updateVitalField}
                 />
               </div>
             </div>
           </div>
         </div>
         <div className=" col-md-12 mt-2 mb-2 text-center">
-          <button className="btn btn-primary profile-button" type="button">
+          <button className="btn btn-primary profile-button" type="submit">
             Save Profile
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

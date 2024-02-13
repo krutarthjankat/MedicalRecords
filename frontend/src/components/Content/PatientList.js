@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseurl } from "../../App";
+import addData from "../../assets/add_data.svg";
 import { useCookies } from "react-cookie";
 import {
   Chart as ChartJS,
@@ -63,15 +64,15 @@ export const data = {
 };
 
 function PatientList() {
-  const [, setId] = useCookies("patientId");
+  const [id, setId] = useCookies("patientId");
   const navigate = useNavigate();
 
   const [vital, setVital] = useState([
     {
-      patientid: 1.5,
+      patientid: 1,
       patientname: "",
       drincharge: "",
-      nurseincharge: "",
+      nurseupdate: "",
       update: [],
       temp: [],
       heartrate: [],
@@ -81,6 +82,8 @@ function PatientList() {
       dibp: [],
     },
   ]);
+
+  const [newvital, setNewVital] = useState({});
 
   useEffect(() => {
     fetchData();
@@ -92,12 +95,11 @@ function PatientList() {
     setVital(res.data.vital);
   };
 
-  const sort = async () => {};
-
   const toggleExpand = (e) => {
     const maindiv =
       e.target.parentElement.parentElement.parentElement.parentElement
         .parentElement;
+        console.log(maindiv.firstChild.lastChild.classList);
     if (!maindiv.classList.contains(styles.isactive)) {
       maindiv.firstChild.lastChild.classList.remove(`${styles.hide}`);
       maindiv.classList.add(`${styles.isactive}`);
@@ -107,6 +109,43 @@ function PatientList() {
       maindiv.classList.remove(`${styles.isactive}`);
       e.target.lastChild.textContent = " Show More";
     }
+  };
+
+  const sort = (e) => {};
+
+  const toggleVitalFields = (e) => {
+    const maindiv =
+      e.target.parentElement.parentElement.parentElement.parentElement
+        .parentElement;
+    console.log(maindiv);
+    if (!maindiv.classList.contains(styles.isactive2)) {
+      maindiv.lastChild.classList.remove(`${styles.hide2}`);
+      maindiv.classList.add(`${styles.isactive2}`);
+     
+    } else {
+      maindiv.lastChild.classList.add(`${styles.hide2}`);
+      maindiv.classList.remove(`${styles.isactive2}`);
+    }
+  };
+
+  const updateVitalField = (e) => {
+    const { name, value } = e.target;
+    setNewVital({ ...newvital, [name]: value });
+  };
+
+
+  const addVitals = async (e) => {
+    e.preventDefault();
+    newvital.patientid =parseInt(e.target.parentElement.parentElement.firstChild.firstChild.firstChild
+        .firstChild.childNodes[1].textContent);
+        newvital.update=new Date();
+        console.log(newvital);
+        const { data } = await axios.post(baseurl + "/", {
+          token: id.token,
+        });
+        newvital.nurseupdate=data.user;
+      const res = await axios.post(baseurl + "/addvital", newvital);
+      console.log(res.data);
   };
 
   return (
@@ -146,25 +185,28 @@ function PatientList() {
                     Last updated by{" "}
                     <span className="font-weight-bold">
                       {" "}
-                      {item.nurseincharge}
+                      {item.nurseupdate[item.nurseupdate.length - 1]}
                     </span>{" "}
-                    {item.update[8]}
+                    {item.update[item.update.length - 1]}
                   </p>
                 </h6>
               </div>
             </div>
-            <div className={`row ${styles.hide} ${styles.graph}`}>
+            <div className={`row ${styles.graph} ${styles.hide}`}>
               <Line
                 options={{
                   responsive: true,
                   maintainAspectRatio: true,
                   aspectRatio: 2,
+                  legend: {
+                    display: false,
+                  },
                   scales: {
                     y: { min: 0, max: 50 },
                   },
                   plugins: {
                     legend: {
-                      position: "top",
+                      display:false
                     },
                     title: {
                       display: true,
@@ -173,7 +215,12 @@ function PatientList() {
                   },
                 }}
                 data={{
-                  labels: item.update,
+                  labels: item.update.map((date) => {
+                    return new Date(date).toLocaleTimeString("en-GB", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    });
+                  }),
                   datasets: [
                     {
                       fill: true,
@@ -199,22 +246,17 @@ function PatientList() {
             </div>
           </div>
 
-          <div className="card-footer bg-white px-0 ">
+          <div className=" card-footer bg-white px-0 ">
             <div className="row">
               <div className=" col-md-auto ">
-                <a
-                  href="a"
+                <button
+                  onClick={toggleVitalFields}
                   className="btn btn-outlined btn-black text-muted bg-transparent"
                   data-wow-delay="0.7s"
                 >
-                  <img
-                    src="https://img.icons8.com/ios/50/000000/settings.png"
-                    width="19"
-                    height="19"
-                    alt="abc"
-                  />{" "}
-                  <small>Edit Data</small>
-                </a>
+                  <img src={addData} alt="addData" />
+                  <small>Update Vitals</small>
+                </button>
                 <button
                   onClick={toggleExpand}
                   className="btn btn-outlined btn-black text-muted "
@@ -230,22 +272,88 @@ function PatientList() {
                 </button>
                 <span className="vl ml-3"></span>
               </div>
-
-              <div className="col-md-auto w-full">
-                <ul className="list-inline d-flex justify-content-end align-items-end">
-                  <li className="list-inline-item">
-                    {" "}
-                    <img
-                      src="https://img.icons8.com/ios/50/000000/plus.png"
-                      width="30"
-                      height="30 "
-                      alt="abc"
-                      className="more"
-                    />
-                  </li>
-                </ul>
-              </div>
             </div>
+          </div>
+          <div className={`card border ${styles.hide2}`}>
+            <form onSubmit={addVitals} className="row">
+              <div className="col-md-4">
+                <label className="labels">Temperature</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder=""
+                  value={newvital.temp}
+                  name="temp"
+                  id="temp"
+                  onChange={updateVitalField}
+                />
+              </div>
+              <div className="col-md-4">
+                <label className="labels">Heart Rate</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder=""
+                  value={newvital.heartrate}
+                  name="heartrate"
+                  id="heartrate"
+                  onChange={updateVitalField}
+                />
+              </div>
+              <div className="col-md-4">
+                <label className="labels">Oxygen</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder=""
+                  value={newvital.oxysat}
+                  name="oxysat"
+                  id="oxysat"
+                  onChange={updateVitalField}
+                />
+              </div>
+              <div className="col-md-4">
+                <label className="labels">Systolic BP</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder=""
+                  value={newvital.sysbp}
+                  name="sysbp"
+                  id="sysbp"
+                  onChange={updateVitalField}
+                />
+              </div>
+              <div className="col-md-4">
+                <label className="labels">Diastolic BP</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder=""
+                  value={newvital.dibp}
+                  name="dibp"
+                  id="dibp"
+                  onChange={updateVitalField}
+                />
+              </div>
+              <div className="col-md-4">
+                <label className="labels">Respiration</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder=""
+                  value={newvital.resprate}
+                  name="resprate"
+                  id="resprate"
+                  onChange={updateVitalField}
+                />
+              </div>
+              <div className="col-md-12 d-flex justify-content-center mt-2 mb-2">
+                <button tyoe="submit" className="btn border border-5 ">
+                  Save
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       ))}
