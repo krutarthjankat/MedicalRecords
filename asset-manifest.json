@@ -1,19 +1,20 @@
 {
   "files": {
-    "main.css": "/MedicalRecords/static/css/main.d1f6db72.css",
-    "main.js": "/MedicalRecords/static/js/main.b1102d63.js",
+    "main.css": "/MedicalRecords/static/css/main.4749bfb3.css",
+    "main.js": "/MedicalRecords/static/js/main.f2739a89.js",
     "static/media/loginbg2.png": "/MedicalRecords/static/media/loginbg2.0445a2e947d4635c8bd9.png",
     "static/media/respirology.svg": "/MedicalRecords/static/media/respirology.a4cfeba7c2acad631e8429fdf51e9820.svg",
     "static/media/pulse_oximeter_alt.svg": "/MedicalRecords/static/media/pulse_oximeter_alt.6f7260d67760c17c0ca3e3d45c539b49.svg",
     "static/media/blood_pressure_monitor.svg": "/MedicalRecords/static/media/blood_pressure_monitor.e1a47a127cfb501c236d17a2919c9904.svg",
+    "static/media/add_data.svg": "/MedicalRecords/static/media/add_data.e3159dfaab70cb25ccc825bbd9c2fcdb.svg",
     "static/media/thermometer.svg": "/MedicalRecords/static/media/thermometer.faed635c82c2da007a10efbcd029fc59.svg",
     "index.html": "/MedicalRecords/index.html",
     "static/media/heart_cardiogram.svg": "/MedicalRecords/static/media/heart_cardiogram.e1d281cf9b9430bcb6c639e99fce577b.svg",
-    "main.d1f6db72.css.map": "/MedicalRecords/static/css/main.d1f6db72.css.map",
-    "main.b1102d63.js.map": "/MedicalRecords/static/js/main.b1102d63.js.map"
+    "main.4749bfb3.css.map": "/MedicalRecords/static/css/main.4749bfb3.css.map",
+    "main.f2739a89.js.map": "/MedicalRecords/static/js/main.f2739a89.js.map"
   },
   "entrypoints": [
-    "static/css/main.d1f6db72.css",
-    "static/js/main.b1102d63.js"
+    "static/css/main.4749bfb3.css",
+    "static/js/main.f2739a89.js"
   ]
 }
