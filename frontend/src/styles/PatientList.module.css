@@ -1,7 +1,6 @@
-.option{
-
+.option {
 }
-.addpt{
+.addpt {
   background-color: transparent;
   color: #fff;
   border: none;
@@ -19,8 +18,8 @@
 }
 
 .maindiv {
-  border-radius: 10px ;
-  max-height:1000px;
+  border-radius: 10px;
+  max-height: 1000px;
   transition: max-height 1000ms;
 }
 
@@ -36,32 +35,28 @@ img {
 
 .btn:focus,
 .btn:active {
-
   /* outline: none !important; */
   /* box-shadow: none !important; */
 }
 
-.isactive{
-    
+.isactive {
+  max-height: 2000px;
 }
-.isactive2{
-   
-}
-
-.hide{
-  /* height:0px;
-  overflow: hidden; */
-  max-height: 0px;
-  display:none !important;
-}
-.hide2{
-  /* height:0px;
-  overflow: hidden; */
-  display:none !important;
+.isactive2 {
+  max-height: 2000px;
 }
 
-.graph{
-  width:50%;
-  display: flex;
-  flex-wrap: wrap;
+.hide {
+  /* height:0px;
+  overflow: hidden; */
+  display: none !important;
+}
+.hide2 {
+  /* height:0px;
+  overflow: hidden; */
+  display: none !important;
+}
+
+.graph {
+  width: 100%;
 }

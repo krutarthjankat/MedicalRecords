@@ -10,22 +10,22 @@ function Sop() {
           ></div>
           <ul className={`${styles.details}`}>
             <li className={`${styles.author}`}>
-              <a href="#">John Doe</a>
+              <a href="abc">John Doe</a>
             </li>
             <li className={`${styles.date}`}>Aug. 24, 2015</li>
             <li className={`${styles.tags}`}>
               <ul>
                 <li>
-                  <a href="#">Learn</a>
+                  <a href="abc">Learn</a>
                 </li>
                 <li>
-                  <a href="#">Code</a>
+                  <a href="abc">Code</a>
                 </li>
                 <li>
-                  <a href="#">HTML</a>
+                  <a href="abc">HTML</a>
                 </li>
                 <li>
-                  <a href="#">CSS</a>
+                  <a href="abc">CSS</a>
                 </li>
               </ul>
             </li>
@@ -41,7 +41,7 @@ function Sop() {
             Neque ad aliquam facilis numquam. Veritatis, sit.
           </p>
           <p className={`${styles.readmore}`}>
-            <a href="#">Read More</a>
+            <a href="efg">Read More</a>
           </p>
         </div>
       </div>
@@ -53,19 +53,19 @@ function Sop() {
             </div>
           <ul className={`${styles.details}`}>
             <li className={`${styles.author}`}>
-              <a href="#">Jane Doe</a>
+              <a href="def">Jane Doe</a>
             </li>
             <li className={`${styles.date}`}>July. 15, 2015</li>
             <li className={`${styles.tags}`}>
               <ul>
                 <li>
-                  <a href="#">Learn</a>
+                  <a href="def">Learn</a>
                 </li>
                 <li>
-                  <a href="#">Code</a>
+                  <a href="def">Code</a>
                 </li>
                 <li>
-                  <a href="#">JavaScript</a>
+                  <a href="def">JavaScript</a>
                 </li>
               </ul>
             </li>
@@ -80,7 +80,7 @@ function Sop() {
             Neque ad aliquam facilis numquam. Veritatis, sit.
           </p>
           <p className={`${styles.readmore}`}>
-            <a href="#">Read More</a>
+            <a href="def">Read More</a>
           </p>
         </div>
       </div>

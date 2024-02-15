@@ -6,32 +6,6 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { baseurl } from "../App";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend,
-  ArcElement,
-} from "chart.js";
-// import { Line, Bar, Doughnut } from "react-chartjs-2";
-ChartJS.register(
-  ArcElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend
-);
 
 function HomePage({ prop }) {
   const [open, setOpen] = useState(true);
@@ -87,7 +61,7 @@ function HomePage({ prop }) {
     { name: "Dashboard", class: "fa-solid fa-chart-line" },
     { name: "Patients", class: "fa-solid fa-bed" },
     { name: "Settings", class: "fa-solid fa-gear" },
-    { name: "Staff Duty Chart", class: "fas fa-tasks" },
+    // { name: "Staff Duty Chart", class: "fas fa-tasks" },
     { name: "SOPs", class: "fa-solid fa-bed-pulse" },
     { name: "About", class: "fa-solid fa-circle-info" },
   ];

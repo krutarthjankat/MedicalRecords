@@ -124,7 +124,7 @@ const createPatientProfile = async (req, res, next) => {
     });
 
     res.status(201).json({
-      message: "Patient created successfully",
+      message: "Patient profile created successfully",
       success: true,
     });
     next();
@@ -159,7 +159,7 @@ const addPatientVital = async (req, res, next) => {
       existingUser.sysbp.push(sysbp);
       existingUser.dibp.push(dibp);
       await existingUser.save();
-      return res.json({ message: "Added vitals to existing user" });
+      return res.json({ message: "Vitals Updated Successfully" });
     }
     await Vital.create({
       patientid,

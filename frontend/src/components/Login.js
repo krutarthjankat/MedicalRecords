@@ -56,7 +56,7 @@ function Login() {
         duration: 0.4,
       },
     });
-  }, [LoginRef, setDimLogin]);
+  }, [LoginRef, setDimLogin,control1]);
 
   //Various Animations
   var routeVariants = {
