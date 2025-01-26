@@ -138,7 +138,7 @@ function PatientList() {
     const { name, value } = e.target;
     setNewVital({ ...newvital, [name]: value });
   };
-
+  
   const addVitals = async (e) => {
     e.preventDefault();
     newvital.patientid = parseInt(
@@ -230,7 +230,7 @@ function PatientList() {
               </div>
             </div>
             <div className={`row ${styles.graph} ${styles.hide}`}>
-              <div className="col-md-6">
+              <div className="col-md-5">
                 <Line
                   options={{
                     responsive: true,
@@ -257,6 +257,7 @@ function PatientList() {
                       title: {
                         display: true,
                         text: "Temperature",
+                        align: "start",
                       },
                     },
                   }}
@@ -280,7 +281,7 @@ function PatientList() {
                   }}
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-md-5">
                 <Line
                   options={{
                     responsive: true,
@@ -330,7 +331,7 @@ function PatientList() {
                   }}
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-md-5">
                 <Line
                   options={{
                     responsive: true,
@@ -391,7 +392,7 @@ function PatientList() {
                   }}
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-md-5">
                 <Line
                   options={{
                     responsive: true,
@@ -441,7 +442,7 @@ function PatientList() {
                   }}
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-md-5">
                 <Line
                   options={{
                     responsive: true,

@@ -60,7 +60,7 @@ function HomePage({ prop }) {
   const SidebarItems = [
     { name: "Dashboard", class: "fa-solid fa-chart-line" },
     { name: "Patients", class: "fa-solid fa-bed" },
-    { name: "Settings", class: "fa-solid fa-gear" },
+    // { name: "Settings", class: "fa-solid fa-gear" },
     // { name: "Staff Duty Chart", class: "fas fa-tasks" },
     { name: "SOPs", class: "fa-solid fa-bed-pulse" },
     { name: "About", class: "fa-solid fa-circle-info" },

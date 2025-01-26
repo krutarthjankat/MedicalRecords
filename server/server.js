@@ -18,6 +18,8 @@ app.use(cookieParser());
 connectToDb();
 
 const backendUrl = "https://medicalrecords.onrender.com/data";
+// const backendUrl = "http://localhost:3000";
+
 cron.schedule("*/180 * * * * *", function () {
   console.log("Restarting server");
 

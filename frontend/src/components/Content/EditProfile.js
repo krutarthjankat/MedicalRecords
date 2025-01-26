@@ -1,6 +1,6 @@
 function EditProfile() {
   return (
-    <div className="container">
+    <div className="card">
       <div className="row">
         <div className="col-12">
           <div className="my-2">
