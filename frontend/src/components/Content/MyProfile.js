@@ -1,4 +1,5 @@
 import styles from "../../styles/MyProfile.module.css";
+import { Link } from "react-router-dom";
 function MyProfile() {
   return (<div className={`container ${styles.complete}`}>
       <div className={`${styles.profilenav} rounded`}>
@@ -10,15 +11,15 @@ function MyProfile() {
         </div>
 
         <ul className="nav nav-pills flex-column">
-          <li className="active">
+          {/* <li className="active">
             <a href="abdc">
               <i className="fa fa-user"></i>Profile
             </a>
-          </li>
+          </li> */}
           <li>
-            <a href="/editprofile">
+            <Link to="/editprofile">
               <i className="fa fa-edit"></i>Edit profile
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
