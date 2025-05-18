@@ -18,7 +18,6 @@
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  border: 2px solid;
   padding: 1% 1%;
   width: 320px;
   height: 560px;
@@ -110,16 +109,16 @@
 }
 
 .invalid {
-  width: 85%;
-  height: 10%;
   font-family: sans-serif;
   background-color: rgb(255, 255, 255);
   color: rgb(195, 0, 0);
   position: absolute;
+  padding: 2%;
   font-size: 110%;
   text-align: center;
   justify-content: center;
   text-shadow: 0 0px 3px rgb(255, 0, 0);
+  border:2px solid black;
   top: 40%;
   z-index: 5;
 }
@@ -167,6 +166,7 @@
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+  color: black;
   & label {
     font-size: 110%;
   }
@@ -175,7 +175,6 @@
 .signinbtn {
   background-color: #00cec8 !important;
   font-size: 1.2em;
-  color: aliceblue;
   width: 2em;
   height: 2em;
   margin-bottom: 0.3rem;
@@ -186,6 +185,7 @@
   outline: 0px;
   border-radius: 50px;
   box-shadow: 2px 2px #888888;
+  color: white;
   &:hover {
     color: #00cec8;
     background-color: #000000 !important;
@@ -197,7 +197,7 @@
   display: flex;
   width: 80%;
   font-size: 100%;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   margin-bottom: 5%;
   & span {
     color: black;

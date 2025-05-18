@@ -15,7 +15,6 @@ import {
 import HomePage from "./components/HomePage.js";
 import MyProfile from "./components/Content/MyProfile.js";
 import PatientList from "./components/Content/PatientList.js";
-import About from "./components/Content/About.js";
 import DashBoard from "./components/Content/Dashboard.js";
 import Settings from "./components/Content/Settings.js";
 import EditProfile from "./components/Content/EditProfile.js";
@@ -23,6 +22,7 @@ import { CookiesProvider, useCookies } from "react-cookie";
 import Sop from "./components/Content/Sop.js";
 import Patient from "./components/Content/Patient.js";
 import AddPatient from "./components/Content/AddPatient.js";
+import ChangePassword from "./components/Content/ChangePassword.js";
 
 export const baseurl = "https://medicalrecords.onrender.com";
 // export const baseurl = "http://localhost:3000";
@@ -54,7 +54,6 @@ function RoutesWithAnimation() {
             path={`/Patients`}
             element={<HomePage prop={<PatientList />} />}
           />
-          <Route path={`/About`} element={<HomePage prop={<About />} />} />
           <Route
             path={`/Editprofile`}
             element={<HomePage prop={<EditProfile />} />}
@@ -67,6 +66,10 @@ function RoutesWithAnimation() {
           <Route
             path={`/Patients/${cookie.patientid}`}
             element={<HomePage prop={<Patient />} />}
+          />
+          <Route
+            path={`/Changepassword`}
+            element={<HomePage prop={<ChangePassword />} />}
           />
         </Routes>
       </AnimatePresence>

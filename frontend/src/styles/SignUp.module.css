@@ -5,6 +5,7 @@
   --transition: 0.15s;
   --background: #4ae6b9;
   --box-shadow: #4ae6b9;
+  color: black;
 }
 .signuppg {
   margin: auto;
@@ -149,6 +150,7 @@ label > span {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  color: #000;
 }
 
 .inputdiv {
@@ -159,8 +161,9 @@ label > span {
   width: 100%;
   padding: 5.69px;
   border-radius: 3px;
-  border: 1px solid;
+  border: 1px solid black;
   transition: 0.2s;
+  background: white;
   &:focus {
     box-shadow: 0px 0px 2px 2px rgb(3, 160, 244);
   }
@@ -305,6 +308,7 @@ a {
   position: relative;
   background-color: white;
   color: black;
+  width: 100%;
   & label {
     content: "";
     position: absolute;

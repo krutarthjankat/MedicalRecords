@@ -218,7 +218,7 @@ function Login() {
             initial={{ opacity: 0 }}
             exit={{ opacity: 0 }}
             animate={control}
-            className={`alert alert-danger ${styles.invalid}`}
+            className={`${styles.invalid}`}
             role="alert"
           >
             Invalid Username/Password
@@ -277,7 +277,7 @@ function Login() {
             </div>
             <div>
               <button type="submit" id="login" className={styles.signinbtn}>
-                <i className="fa-solid fa-arrow-right-to-bracket"></i>
+                <i className="fa-solid fa-arrow-right-to-bracket text-white hover:text-[#00cec8]"></i>
               </button>
             </div>
           </div>
@@ -295,11 +295,11 @@ function Login() {
               }}
               to="/signup"
             >
-              <span>Sign Up</span>
+              <span>Don't have an Account? Sign Up</span>
             </Link>
-            <Link>
+            {/* <Link>
               <span>Forgot Password?</span>
-            </Link>
+            </Link> */}
           </div>
         </motion.form>
       </div>

@@ -1,4 +1,3 @@
-import styles from "../../styles/PatientList.module.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +23,8 @@ import {
   TimeScale,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { motion } from "framer-motion";
+
 ChartJS.register(
   ArcElement,
   CategoryScale,
@@ -37,37 +38,6 @@ ChartJS.register(
   Filler,
   Legend
 );
-
-export const options = {
-  responsive: true,
-  maintainAspectRatio: true,
-  aspectRatio: 1,
-  plugins: {
-    legend: {
-      position: "top",
-    },
-    title: {
-      display: true,
-      text: "Temperature",
-    },
-  },
-};
-const labels = [
-  0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400,
-  1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300,
-];
-export const data = {
-  labels,
-  datasets: [
-    {
-      fill: true,
-      label: "Dataset 2",
-      data: labels.map(() => Math.random() * 1000),
-      borderColor: "#2190e47a",
-      backgroundColor: "#2190e47a",
-    },
-  ],
-};
 
 function PatientList() {
   const [isLoading, setLoading] = useState(true);
@@ -91,6 +61,8 @@ function PatientList() {
   ]);
 
   const [newvital, setNewVital] = useState({});
+  const [expandedCards, setExpandedCards] = useState({});
+  const [showVitalForms, setShowVitalForms] = useState({});
 
   useEffect(() => {
     fetchData();
@@ -103,42 +75,27 @@ function PatientList() {
     setLoading(false);
   };
 
-  const toggleExpand = (e) => {
-    const maindiv =
-      e.target.parentElement.parentElement.parentElement.parentElement
-        .parentElement;
-    if (!maindiv.classList.contains(styles.isactive)) {
-      maindiv.firstChild.lastChild.classList.remove(`${styles.hide}`);
-      maindiv.classList.add(`${styles.isactive}`);
-      e.target.lastChild.textContent = " Show Less";
-    } else {
-      maindiv.firstChild.lastChild.classList.add(`${styles.hide}`);
-      maindiv.classList.remove(`${styles.isactive}`);
-      e.target.lastChild.textContent = " Show More";
-    }
+  const toggleExpand = (patientId) => {
+    setExpandedCards((prev) => ({
+      ...prev,
+      [patientId]: !prev[patientId],
+    }));
   };
 
-  const sort = (e) => {};
+  // const sort = (e) => {};
 
-  const toggleVitalFields = (e) => {
-    const maindiv =
-      e.target.parentElement.parentElement.parentElement.parentElement
-        .parentElement;
-    console.log(maindiv);
-    if (!maindiv.classList.contains(styles.isactive2)) {
-      maindiv.lastChild.classList.remove(`${styles.hide2}`);
-      maindiv.classList.add(`${styles.isactive2}`);
-    } else {
-      maindiv.lastChild.classList.add(`${styles.hide2}`);
-      maindiv.classList.remove(`${styles.isactive2}`);
-    }
+  const toggleVitalFields = (patientId) => {
+    setShowVitalForms((prev) => ({
+      ...prev,
+      [patientId]: !prev[patientId],
+    }));
   };
 
   const updateVitalField = (e) => {
     const { name, value } = e.target;
     setNewVital({ ...newvital, [name]: value });
   };
-  
+
   const addVitals = async (e) => {
     e.preventDefault();
     newvital.patientid = parseInt(
@@ -167,15 +124,7 @@ function PatientList() {
 
   if (isLoading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100vh",
-        }}
-      >
+      <div className="flex flex-col items-center justify-center h-screen">
         Loading the data {console.log("loading state")}
       </div>
     );
@@ -183,42 +132,51 @@ function PatientList() {
 
   return (
     <div>
-      <ToastContainer></ToastContainer>
-      <div className={`${styles.option}`}>
+      <ToastContainer />
+      <div className="flex space-x-4 mb-4 text-black dark:text-white">
         <button
-          className={`${styles.addpt}`}
+          className="px-4 py-2 bg-yellow-400 dark:bg-gray-400 text-white rounded hover:bg-blue-600 transition-colors"
           onClick={() => {
             navigate(`/Patients/add`);
           }}
         >
           Add Patient
         </button>
-        <button className={`${styles.addpt}`} onClick={sort}>
-          Sort By
-        </button>
       </div>
 
       {vital.map((item, index) => (
-        <div
-          key={index}
-          className={`card border-5 mb-3 w-full ${styles.maindiv} overflow-hidden`}
+        <motion.div
+        key={index}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{  duration: 0.01 }}
+          className={`mb-6 w-full rounded text-black dark:text-white border-4 border-gray-200 overflow-hidden transition-all duration-1000 ${
+            expandedCards[item.patientid] || showVitalForms[item.patientid]
+              ? "max-h-[2000px]"
+              : "max-h-[300px]"
+          }`}
         >
-          <div className="card-body">
-            <div className="row">
-              <div className="col-12 ">
-                <h4 className="card-title ">
-                  Patient-Id: <b>{item.patientid}</b>
+          <div className="p-4">
+            <div className="flex flex-wrap ">
+              <div className="w-full ">
+                <h4 className="text-xl text-black dark:text-white font-semibold">
+                  Patient-Id:{" "}
+                  <b className="text-xl text-black dark:text-white">
+                    {item.patientid}
+                  </b>
                   <br />
-                  Patient Name: <b>{item.patientname}</b>
+                  Patient Name:{" "}
+                  <b className="text-xl text-black dark:text-white">
+                    {item.patientname}
+                  </b>
                 </h4>
               </div>
-              <div className="col">
-                <h6 className="card-subtitle mb-0 text-muted">
-                  <p className="card-text text-muted small ">
-                    <span className="vl mr-2 ml-0"></span>
+              <div className="w-full">
+                <h6 className="text-sm text-gray-500">
+                  <p className="text-xs text-black dark:text-white">
+                    <span className="h-5 text-black dark:text-white inline-block"></span>
                     Last updated by{" "}
-                    <span className="font-weight-bold">
-                      {" "}
+                    <span className="font-bold text-black dark:text-white">
                       {item.nurseupdate[item.nurseupdate.length - 1]}
                     </span>{" "}
                     on{" "}
@@ -228,402 +186,167 @@ function PatientList() {
                   </p>
                 </h6>
               </div>
-            </div>
-            <div className={`row ${styles.graph} ${styles.hide}`}>
-              <div className="col-md-5">
-                <Line
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    aspectRatio: 2,
-                    legend: {
-                      display: false,
-                    },
-                    scales: {
-                      y: { min: 30, max: 50 },
-                      x: {
-                        type: "time",
-                        adapters: {
-                          date: {
-                            locale: enGB,
-                          },
-                        },
-                      },
-                    },
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                      title: {
-                        display: true,
-                        text: "Temperature",
-                        align: "start",
-                      },
-                    },
-                  }}
-                  data={{
-                    labels: item.update,
-                    // item.update.map((date) => {
-                    //   return new Date(date).toLocaleTimeString("en-GB", {
-                    //     hour: "2-digit",
-                    //     minute: "2-digit",
-                    //   });
-                    // }),
-                    datasets: [
-                      {
-                        fill: true,
-                        data: item.temp,
-                        borderColor: "#2190e47a",
-                        backgroundColor: "#2190e47a",
-                        tension: 0.5,
-                      },
-                    ],
-                  }}
-                />
-              </div>
-              <div className="col-md-5">
-                <Line
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    aspectRatio: 2,
-                    legend: {
-                      display: false,
-                    },
-                    scales: {
-                      y: { min: 30, max: 150 },
-                      x: {
-                        type: "time",
-                        adapters: {
-                          date: {
-                            locale: enGB,
-                          },
-                        },
-                      },
-                    },
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                      title: {
-                        display: true,
-                        text: "Heart Rate",
-                      },
-                    },
-                  }}
-                  data={{
-                    labels: item.update,
-                    // item.update.map((date) => {
-                    //   return new Date(date).toLocaleTimeString("en-GB", {
-                    //     hour: "2-digit",
-                    //     minute: "2-digit",
-                    //   });
-                    // }),
-                    datasets: [
-                      {
-                        fill: true,
-                        data: item.heartrate,
-                        borderColor: "#2190e47a",
-                        backgroundColor: "#2190e47a",
-                        tension: 0.5,
-                      },
-                    ],
-                  }}
-                />
-              </div>
-              <div className="col-md-5">
-                <Line
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    aspectRatio: 2,
-                    legend: {
-                      display: false,
-                    },
-                    scales: {
-                      y: { min: 0, max: 160 },
-                      x: {
-                        type: "time",
-                        adapters: {
-                          date: {
-                            locale: enGB,
-                          },
-                        },
-                      },
-                    },
-                    plugins: {
-                      legend: {
-                        // display: false,
-                        position: "right",
-                        align: "start",
-                      },
-                      title: {
-                        display: true,
-                        text: "Blood Pressure",
-                      },
-                    },
-                  }}
-                  data={{
-                    labels: item.update,
-                    // item.update.map((date) => {
-                    //   return new Date(date).toLocaleTimeString("en-GB", {
-                    //     hour: "2-digit",
-                    //     minute: "2-digit",
-                    //   });
-                    // }),
-                    datasets: [
-                      {
-                        label: "Systolic BP",
-                        fill: true,
-                        data: item.sysbp,
-                        borderColor: "#2190e47a",
-                        backgroundColor: "#2190e47a",
-                        tension: 0.5,
-                      },
-                      {
-                        label: "Diastolic BP",
-                        fill: true,
-                        data: item.dibp,
-                        borderColor: "#2190e47a",
-                        backgroundColor: "#2190e47a",
-                        tension: 0.5,
-                      },
-                    ],
-                  }}
-                />
-              </div>
-              <div className="col-md-5">
-                <Line
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    aspectRatio: 2,
-                    legend: {
-                      display: false,
-                    },
-                    scales: {
-                      y: { min: 0, max: 40 },
-                      x: {
-                        type: "time",
-                        adapters: {
-                          date: {
-                            locale: enGB,
-                          },
-                        },
-                      },
-                    },
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                      title: {
-                        display: true,
-                        text: "Respiration Rate",
-                      },
-                    },
-                  }}
-                  data={{
-                    labels: item.update,
-                    // item.update.map((date) => {
-                    //   return new Date(date).toLocaleTimeString("en-GB", {
-                    //     hour: "2-digit",
-                    //     minute: "2-digit",
-                    //   });
-                    // }),
-                    datasets: [
-                      {
-                        fill: true,
-                        data: item.resprate,
-                        borderColor: "#2190e47a",
-                        backgroundColor: "#2190e47a",
-                        tension: 0.5,
-                      },
-                    ],
-                  }}
-                />
-              </div>
-              <div className="col-md-5">
-                <Line
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    aspectRatio: 2,
-                    legend: {
-                      display: false,
-                    },
-                    scales: {
-                      y: { min: 70, max: 100 },
-                      x: {
-                        type: "time",
-                        adapters: {
-                          date: {
-                            locale: enGB,
-                          },
-                        },
-                      },
-                    },
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                      title: {
-                        display: true,
-                        text: "Oxygen Saturation",
-                      },
-                    },
-                  }}
-                  data={{
-                    labels: item.update,
-                    // item.update.map((date) => {
-                    //   return new Date(date).toLocaleTimeString("en-GB", {
-                    //     hour: "2-digit",
-                    //     minute: "2-digit",
-                    //   });
-                    // }),
-                    datasets: [
-                      {
-                        fill: true,
-                        data: item.oxysat,
-                        borderColor: "#2190e47a",
-                        backgroundColor: "#2190e47a",
-                        tension: 0.5,
-                      },
-                    ],
-                  }}
-                />
-              </div>
               <button
+                className="px-4 py-2 bg-yellow-400 dark:bg-white text-white dark:text-black rounded hover:bg-blue-500 transition-colors mt-4"
                 onClick={() => {
                   setId("patientid", item.patientid, {
                     path: "/MedicalRecords",
                   });
-                  // console.log(id);
                   navigate(`/Patients/${item.patientid}`);
                 }}
               >
                 View Profile
               </button>
             </div>
-          </div>
-
-          <div className=" card-footer bg-white px-0 ">
-            <div className="row">
-              <div className=" col-md-auto ">
-                <button
-                  onClick={toggleVitalFields}
-                  className="btn btn-outlined btn-black text-muted bg-transparent"
-                  data-wow-delay="0.7s"
-                >
-                  <img src={addData} alt="addData" />
-                  <small>Update Vitals</small>
-                </button>
-                <button
-                  onClick={toggleExpand}
-                  className="btn btn-outlined btn-black text-muted "
-                >
-                  <img
-                    src="https://img.icons8.com/metro/26/000000/more.png"
-                    width="20"
-                    height="20"
-                    alt="abc"
-                    className="mr-2 more"
-                  />
-                  <small> Show More</small>
-                </button>
-                <span className="vl ml-3"></span>
-              </div>
+            <div
+              className={`mt-4 w-full flex flex-wrap justify-around ${
+                expandedCards[item.patientid] ? "block" : "hidden"
+              }`}
+            >
+              {[
+                {
+                  title: "Temperature",
+                  data: [{ data: item.temp }],
+                  yRange: [30, 50],
+                },
+                {
+                  title: "Heart Rate",
+                  data: [{ data: item.heartrate }],
+                  yRange: [30, 150],
+                },
+                {
+                  title: "Blood Pressure",
+                  data: [
+                    { label: "Systolic BP", data: item.sysbp },
+                    { label: "Diastolic BP", data: item.dibp },
+                  ],
+                  yRange: [0, 160],
+                  legend: { position: "right", align: "start" },
+                },
+                {
+                  title: "Respiration Rate",
+                  data: [{ data: item.resprate }],
+                  yRange: [0, 40],
+                },
+                {
+                  title: "Oxygen Saturation",
+                  data: [{ data: item.oxysat }],
+                  yRange: [70, 100],
+                },
+              ].map(
+                ({ title, data, yRange, legend = { display: false } }, idx) => (
+                  <div key={idx} className="w-full md:w-1/2 lg:w-2/5 p-2">
+                    <Line
+                      options={{
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        aspectRatio: 2,
+                        scales: {
+                          y: { min: yRange[0], max: yRange[1] },
+                          x: {
+                            type: "time",
+                            adapters: {
+                              date: { locale: enGB },
+                            },
+                          },
+                        },
+                        plugins: {
+                          legend,
+                          title: {
+                            display: true,
+                            text: title,
+                            align: "start",
+                          },
+                        },
+                      }}
+                      data={{
+                        labels: item.update,
+                        datasets: data.map((d) => ({
+                          fill: true,
+                          borderColor: "#2190e47a",
+                          backgroundColor: "#2190e47a",
+                          tension: 0.5,
+                          ...d,
+                        })),
+                      }}
+                    />
+                  </div>
+                )
+              )}
             </div>
           </div>
-          <div className={`card-body border ${styles.hide2}`}>
-            <form onSubmit={addVitals} className="row">
-              <div className="col-md-4">
-                <label className="labels">Temperature</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder=""
-                  value={newvital.temp}
-                  name="temp"
-                  id="temp"
-                  onChange={updateVitalField}
-                  autoComplete="off"
+
+          {/* Update Vitals Button + Form */}
+          <div className="bg-white p-4 border-t">
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => toggleVitalFields(item.patientid)}
+                className="flex items-center text-gray-500 hover:text-gray-700"
+              >
+                <img src={addData} alt="addData" className="mr-2" />
+                <small>Update Vitals</small>
+              </button>
+              <button
+                onClick={() => toggleExpand(item.patientid)}
+                className="flex items-center text-gray-500 hover:text-gray-700"
+              >
+                <img
+                  src="https://img.icons8.com/metro/26/000000/more.png"
+                  width="20"
+                  height="20"
+                  alt="abc"
+                  className="mr-2 opacity-50"
                 />
-              </div>
-              <div className="col-md-4">
-                <label className="labels">Heart Rate</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder=""
-                  value={newvital.heartrate}
-                  name="heartrate"
-                  id="heartrate"
-                  onChange={updateVitalField}
-                  autoComplete="off"
-                />
-              </div>
-              <div className="col-md-4">
-                <label className="labels">Oxygen</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder=""
-                  value={newvital.oxysat}
-                  name="oxysat"
-                  id="oxysat"
-                  onChange={updateVitalField}
-                  autoComplete="off"
-                />
-              </div>
-              <div className="col-md-4">
-                <label className="labels">Systolic BP</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder=""
-                  value={newvital.sysbp}
-                  name="sysbp"
-                  id="sysbp"
-                  onChange={updateVitalField}
-                  autoComplete="off"
-                />
-              </div>
-              <div className="col-md-4">
-                <label className="labels">Diastolic BP</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder=""
-                  value={newvital.dibp}
-                  name="dibp"
-                  id="dibp"
-                  onChange={updateVitalField}
-                  autoComplete="off"
-                />
-              </div>
-              <div className="col-md-4">
-                <label className="labels">Respiration</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder=""
-                  value={newvital.resprate}
-                  name="resprate"
-                  id="resprate"
-                  onChange={updateVitalField}
-                  autoComplete="off"
-                />
-              </div>
-              <div className="col-md-12 d-flex justify-content-center mt-2 mb-2">
-                <button tyoe="submit" className="btn border border-5 ">
+                <small>
+                  {expandedCards[item.patientid] ? "Show Less" : "Show More"}
+                </small>
+              </button>
+              <span className="border-l border-gray-400 h-6 mx-2"></span>
+            </div>
+          </div>
+          <div
+            className={`p-4 border-t ${
+              showVitalForms[item.patientid] ? "block" : "hidden"
+            }`}
+          >
+            <form onSubmit={addVitals} className="flex flex-wrap">
+              {[
+                { label: "Temperature", name: "temp" },
+                { label: "Heart Rate", name: "heartrate" },
+                { label: "Oxygen", name: "oxysat" },
+                { label: "Systolic BP", name: "sysbp" },
+                { label: "Diastolic BP", name: "dibp" },
+                { label: "Respiration", name: "resprate" },
+              ].map(({ label, name }) => (
+                <div key={name} className="w-full md:w-1/3 p-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    {label}
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full p-2 border rounded"
+                    value={newvital[name]}
+                    name={name}
+                    id={name}
+                    onChange={updateVitalField}
+                    autoComplete="off"
+                  />
+                </div>
+              ))}
+              <div className="w-full flex justify-center my-2">
+                <button
+                  type="submit"
+                  className="px-4 py-2 border-4 border-gray-300 rounded hover:bg-gray-100 transition-colors"
+                >
                   Save
                 </button>
               </div>
             </form>
           </div>
-        </div>
+        </motion.div>
       ))}
     </div>
   );
 }
+
 export default PatientList;

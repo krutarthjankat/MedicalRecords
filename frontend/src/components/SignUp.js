@@ -255,7 +255,7 @@ const SignUp = () => {
               </div>
             </div>
           )}
-          <h1>Sign Up</h1>
+          <h1 className="text-4xl text-black text-bold mb-2">Sign Up</h1>
           <form onSubmit={createProfile}>
             {alert && (
               <div
@@ -450,7 +450,7 @@ const SignUp = () => {
                 <button
                   type="submit"
                   id="signup"
-                  className={`${styles.signupbtn} ${styles.btnthree} btn mt-1 col-12`}
+                  className={`${styles.btnthree} bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`}
                 >
                   Create an account
                 </button>

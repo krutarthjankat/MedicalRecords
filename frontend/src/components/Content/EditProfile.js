@@ -1,177 +1,140 @@
-function EditProfile() {
+import { FaEdit,  FaArrowLeft } from "react-icons/fa";
+import { useState } from "react";
+import { useNavigate} from "react-router-dom";
+import { motion} from "framer-motion";
+
+const EditProfile = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    firstname: "Camila",
+    lastname: "Smith",
+    username: "camila123",
+    mobno: "(12) 03 4567890",
+    emailid: "camila.smith@example.com",
+    category: "Community Medicine",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate("/profile");
+  };
+
   return (
-    <div className="card">
-      <div className="row">
-        <div className="col-12">
-          <div className="my-2">
-            <h3>My Profile</h3>
-            <hr />
-          </div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="w-full p-6 bg-gray-100 dark:bg-gray-900 min-h-screen"
+    >
+      <motion.div
+        initial={{ scale: 0.98 }}
+        animate={{ scale: 1 }}
+        className="max-w-6xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-xl overflow-hidden"
+      >
+        <div className="flex flex-col md:flex-row">
+          {/* Back Button */}
 
-          <form className="file-upload">
-            <div className="row mb-5 gx-5">
-              <div className="col-xxl-8 mb-5 mb-xxl-0">
-                <div className="bg-secondary-soft px-4 py-5 rounded">
-                  <div className="row g-3">
-                    <h4 className="mb-4 mt-0">Bio Data</h4>
-                    <div className="col-md-6">
-                      <label className="form-label">First Name *</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        aria-label="First name"
-                        placeholder="Scaralet"
-                      />
-                    </div>
-
-                    <div className="col-md-6">
-                      <label className="form-label">Last Name *</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Doe"
-                        aria-label="Last name"
-                      />
-                    </div>
-
-                    <div className="col-md-6">
-                      <label className="form-label">Phone number *</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="(333) 000 555"
-                        aria-label="Phone number"
-                      />
-                    </div>
-
-                    <div className="col-md-6">
-                      <label className="form-label">Mobile number *</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="+91 9852 8855 252"
-                        aria-label="Phone number"
-                        
-                      />
-                    </div>
-
-                    <div className="col-md-6">
-                      <label htmlFor="inputEmail4" className="form-label">
-                        Email *
-                      </label>
-                      <input
-                        type="email"
-                        className="form-control"
-                        placeholder="example@homerealty.com"
-                        id="inputEmail4"
-                      
-                      />
-                    </div>
-
-                    <div className="col-md-6">
-                      <label className="form-label">Skype *</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Scaralet D"
-                        aria-label="Phone number"
-                        
-                      />
-                    </div>
-                  </div>
-                </div>
+          {/* Edit Form */}
+          <motion.div
+            initial={{ x: 20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            className="w-full p-8 bg-gray-50 dark:bg-gray-900"
+          >
+            <div className="w-full flex flex-row justify-between">
+              <div>
+                <h3 className="text-3xl font-bold text-yellow-500 dark:text-yellow-400 mb-6 border-b-2 border-yellow-400 pb-2 flex items-center gap-3">
+                  <FaEdit />
+                  Edit Profile
+                </h3>
               </div>
-
-              <div className="col-xxl-4">
-                <div className="bg-secondary-soft px-4 py-5 rounded">
-                  <div className="row g-3">
-                    <h4 className="mb-4 mt-0">Upload your profile photo</h4>
-                    <div className="text-center">
-                      <div className="square position-relative display-2 mb-3">
-                        <i className="fas fa-fw fa-user position-absolute top-50 start-50 translate-middle text-secondary"></i>
-                      </div>
-
-                      <input
-                        type="file"
-                        id="customFile"
-                        name="file"
-                        hidden=""
-                      />
-                      <label
-                        className="btn btn-success-soft btn-block"
-                        htmlFor="customFile"
+              <div>
+                <motion.button
+                  whileHover={{ x: -3 }}
+                  onClick={() => navigate("/Myprofile")}
+                  className="items-center gap-2 text-yellow-600 dark:text-yellow-400 z-10"
+                >
+                  <FaArrowLeft />
+                </motion.button>
+              </div>
+            </div>
+            
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-700 dark:text-gray-300">
+                {Object.entries(user).map(([key, value]) => (
+                  <motion.div
+                    key={key}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      delay: 0.05 * (Object.keys(user).indexOf(key) + 1),
+                    }}
+                  >
+                    <label className="block text-sm font-semibold mb-1 capitalize">
+                      {key.replace(/([A-Z])/g, " $1")}
+                    </label>
+                    {key === "category" ? (
+                      <select
+                        name={key}
+                        value={value}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 dark:bg-gray-800"
                       >
-                        Upload
-                      </label>
-                      <button type="button" className="btn btn-danger-soft">
-                        Remove
-                      </button>
-
-                      <p className="text-muted mt-3 mb-0">
-                        <span className="me-1">Note:</span>Minimum size 300px x
-                        300px
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                        <option value="Community Medicine">
+                          Community Medicine
+                        </option>
+                        <option value="General Practitioner">
+                          General Practitioner
+                        </option>
+                        <option value="Specialist">Specialist</option>
+                        <option value="Administrator">Administrator</option>
+                      </select>
+                    ) : (
+                      <input
+                        type={
+                          key === "emailid"
+                            ? "email"
+                            : key === "mobno"
+                            ? "tel"
+                            : "text"
+                        }
+                        name={key}
+                        value={value}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 dark:bg-gray-800"
+                      />
+                    )}
+                  </motion.div>
+                ))}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="sm:col-span-2 flex justify-end mt-4"
+                >
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit"
+                    className="px-6 py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-lg shadow transition-colors duration-300 flex items-center gap-2"
+                  >
+                    <FaEdit />
+                    Save Changes
+                  </motion.button>
+                </motion.div>
               </div>
-            </div>
-
-            <div className="row mb-5 gx-5">
-              <div className="col-xxl-6">
-                <div className="bg-secondary-soft px-4 py-5 rounded">
-                  <div className="row g-3">
-                    <h4 className="my-4">Change Password</h4>
-
-                    <div className="col-md-6">
-                      <label htmlFor="exampleInputPassword1" className="form-label">
-                        Old password *
-                      </label>
-                      <input
-                        type="password"
-                        className="form-control"
-                        id="exampleInputPassword1"
-                      />
-                    </div>
-
-                    <div className="col-md-6">
-                      <label htmlFor="exampleInputPassword2" className="form-label">
-                        New password *
-                      </label>
-                      <input
-                        type="password"
-                        className="form-control"
-                        id="exampleInputPassword2"
-                      />
-                    </div>
-
-                    <div className="col-md-12">
-                      <label htmlFor="exampleInputPassword3" className="form-label">
-                        Confirm Password *
-                      </label>
-                      <input
-                        type="password"
-                        className="form-control"
-                        id="exampleInputPassword3"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="gap-3 d-md-flex justify-content-md-end text-center">
-              <button type="button" className="btn btn-danger btn-lg">
-                Delete profile
-              </button>
-              <button type="button" className="btn btn-primary btn-lg">
-                Update profile
-              </button>
-            </div>
-          </form>
+            </form>
+          </motion.div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
-}
+};
+
 export default EditProfile;
